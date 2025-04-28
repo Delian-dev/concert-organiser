@@ -1,0 +1,1 @@
+Java OOP Project which simulates the organization of multiple concerts. Each concert has its own manageable musician list, sponsors, tickets (bought by clients) and other stuff. All these entities are customizable.
