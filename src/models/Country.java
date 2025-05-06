@@ -1,7 +1,7 @@
 package models;
 
 public class Country {
-    private final int countryId;
+    private int countryId;
     private String countryName;
     private long population;
 
@@ -11,7 +11,12 @@ public class Country {
         this.population = population;
     }
 
-    public int getcountryId() {return countryId;}
+    public Country(String countryName, long population) {
+        this.countryName = countryName;
+        this.population = population;
+    }
+
+    public int getCountryId() {return countryId;}
     public String getCountry_name() {return countryName;}
     public long getPopulation() {return population;}
 
@@ -21,7 +26,8 @@ public class Country {
     @Override
     public String toString() {
         return "Country{" +
-                "population=" + population +
+                "countryId=" + countryId +
+                ", population=" + population +
                 ", countryName='" + countryName + '\'' +
                 '}';
     }

@@ -6,3 +6,10 @@ public final class EmailValidator implements Validator<String> {
         return email != null && email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$");
     }
 }
+
+
+//stil utilizare in service:
+//EmailValidator validator = new EmailValidator();
+//if (!validator.isValid(email)) {
+//        throw new InvalidEmailException("Invalid email format: " + email);
+//}

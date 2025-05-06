@@ -1,5 +1,4 @@
 package models;
-//as putea face un pachet separat unde definesc metode de validare a datelor
 //iar in momentul in care vreau sa fac un insert/update in db <=> cand dau set la variabile, dau check cu functiile din pachet si daca nu respecta condiftiile => catch si nu adaug nimic stricat in database
 //dupa cand efectiv creez obiecte cu constructori - o fac pe baza ce am deja in db => date corecte
 //la setters o sa trebuiasca sa am grija pt ca practic eu apelez o metoda de update in db dupa ce apelez setterul
@@ -9,7 +8,7 @@ public class Ticket {
     private int concertId;
     private int clientId;
     private int price;
-    private TicketType ticketType; //de stabilit cum tratez validarile + de facut cu ENUMS!!!
+    private TicketType ticketType;
     private String transactionDate;
 
     public Ticket(int ticketId, int concertId, int clientId, int price, String transactionDate) {
