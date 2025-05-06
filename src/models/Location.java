@@ -1,7 +1,7 @@
 package models;
 
 public class Location {
-    private final int locationId;
+    private int locationId;
     private int countryId;
     private String city;
     private String address;
@@ -13,7 +13,13 @@ public class Location {
         this.address = address;
     }
 
-    public int getlocationId() { return locationId; }
+    public Location(int countryId, String city, String address) {
+        this.countryId = countryId;
+        this.city = city;
+        this.address = address;
+    }
+
+    public int getLocationId() { return locationId; }
     public int getCountryId() { return countryId; }
     public String getCity() { return city; }
     public String getAddress() { return address; }
@@ -25,7 +31,8 @@ public class Location {
     @Override
     public String toString() {
         return "Location{" +
-                "countryId=" + countryId +
+                "locationId=" + locationId +
+                ", countryId=" + countryId +
                 ", city='" + city + '\'' +
                 ", address='" + address + '\'' +
                 '}';
