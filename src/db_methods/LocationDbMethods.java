@@ -33,6 +33,11 @@ public class LocationDbMethods {
 
     public void updateLocation(Location location) {
         try(Connection conn = Database.getConnection()){
+            // Enable foreign keys
+            try (Statement pragmaStmt = conn.createStatement()) {
+                pragmaStmt.execute("PRAGMA foreign_keys = ON");
+            }
+
             conn.setAutoCommit(false);
             final String updateLocation="Update location set id_country = ?, city = ?, address = ? where id_location = ?";
 
