@@ -10,6 +10,12 @@ public class SoloArtist extends Musician {
         this.instrument = instrument;
     }
 
+    public SoloArtist(String name, String genre, String birthdate, String instrument){
+        super(name, genre);
+        this.birthdate = birthdate;
+        this.instrument = instrument;
+    }
+
     public String getBirthdate(){ return birthdate; }
     public String getInstrument(){ return instrument; }
 

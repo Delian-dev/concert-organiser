@@ -1,13 +1,18 @@
 package models;
 
 public class Sponsor {
-    private final int sponsorId;
+    private int sponsorId;
     private String sponsorName;
     private long marketValue;
 
     public Sponsor(int sponsorId, String sponsorName){
         this.sponsorId = sponsorId;
         this.sponsorName = sponsorName;
+    }
+
+    public Sponsor(String sponsorName, long marketValue){
+        this.sponsorName = sponsorName;
+        this.marketValue = marketValue;
     }
 
     public Sponsor(int sponsorId, String sponsorName, long marketValue){

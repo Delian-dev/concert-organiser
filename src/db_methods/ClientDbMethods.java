@@ -7,6 +7,25 @@ import models.Client;
 import utils.Database;
 //POT FACE O INTERFATA NUMITA DBMETHODS CU FUNCTIILE DE BAZS SI TIP T PT A PUTEA DA OVERWRITE DUPA CU FIECARE TIP DE OBIECT
 public class ClientDbMethods {
+    public void insertClient(Client client){
+        try(Connection conn = Database.getConnection()){
+            conn.setAutoCommit(false);
+            final String insertClient="insert into client(username, age, email, phone) values(?,?,?,?)";
+
+            try(PreparedStatement stmt = conn.prepareStatement(insertClient)){
+                stmt.setString(1,client.getUsername());
+                stmt.setInt(2,client.getAge());
+                stmt.setString(3,client.getEmail());
+                stmt.setString(4,client.getPhone());
+                stmt.executeUpdate();
+            }
+            conn.commit();
+
+        } catch (SQLException ex){
+            System.out.println("Error " + ex.getMessage());
+        }
+    }
+    
     public void updateClient(Client client){
         try(Connection conn = Database.getConnection()){
             conn.setAutoCommit(false);

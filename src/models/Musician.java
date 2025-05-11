@@ -1,7 +1,7 @@
 package models;
 
 public class Musician {
-    private final int musicianId;
+    private int musicianId;
     private String name;
     private String genre;
 
@@ -10,6 +10,12 @@ public class Musician {
         this.name = name;
         this.genre = genre;
     }
+
+    public Musician(String name, String genre){
+        this.name = name;
+        this.genre = genre;
+    }
+
 
     public int getMusicianId(){ return musicianId; }
     public String getName(){ return name; }

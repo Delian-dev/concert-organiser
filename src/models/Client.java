@@ -1,7 +1,7 @@
 package models;
 
 public class Client {
-    private final int clientId;
+    private int clientId;
     private String username;
     private int age;
     private String email;
@@ -13,6 +13,14 @@ public class Client {
         this.age = age;
         this.email = email;
     }
+
+    public Client(String username , int age, String email, String phone){
+        this.username = username;
+        this.age = age;
+        this.email = email;
+        this.phone = phone;
+    }
+
 
     public Client(int clientId, String username , int age, String email, String phone){
         this.clientId = clientId;

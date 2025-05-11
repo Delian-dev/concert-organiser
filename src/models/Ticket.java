@@ -4,7 +4,7 @@ package models;
 //la setters o sa trebuiasca sa am grija pt ca practic eu apelez o metoda de update in db dupa ce apelez setterul
 //sau mai degraba apelez setters doar dupa ce fac update in db idk si atunci e ca in cazul creeari de obiecte
 public class Ticket {
-    private final int ticketId;
+    private int ticketId;
     private int concertId;
     private int clientId;
     private int price;
@@ -21,6 +21,14 @@ public class Ticket {
 
     public Ticket(int ticketId, int concertId, int clientId, int price, TicketType ticketType, String transactionDate) {
         this.ticketId = ticketId;
+        this.concertId = concertId;
+        this.clientId = clientId;
+        this.price = price;
+        this.ticketType = ticketType;
+        this.transactionDate = transactionDate;
+    }
+
+    public Ticket(int concertId, int clientId, int price, TicketType ticketType, String transactionDate) {
         this.concertId = concertId;
         this.clientId = clientId;
         this.price = price;

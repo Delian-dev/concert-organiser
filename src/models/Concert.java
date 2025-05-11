@@ -1,7 +1,7 @@
 package models;
 
 public class Concert {
-    private final int concertId;
+    private int concertId;
     private int locationId;
     private String concertName;
     private String date;
@@ -12,6 +12,13 @@ public class Concert {
         this.locationId = locationId;
         this.concertName = concertName;
         this.date = date;
+    }
+
+    public Concert(int locationId, String concertName, String date, int capacity){
+        this.locationId = locationId;
+        this.concertName = concertName;
+        this.date = date;
+        this.capacity =  capacity;
     }
 
     public Concert(int concertId, int locationId, String concertName, String date, int capacity){
