@@ -25,10 +25,11 @@ public class Country {
 
     @Override
     public String toString() {
-        return "Country{" +
-                "countryId=" + countryId +
-                ", population=" + population +
-                ", countryName='" + countryName + '\'' +
-                '}';
+//        return "Country{" +
+//                "countryId=" + countryId +
+//                ", population=" + population +
+//                ", countryName='" + countryName + '\'' +
+//                '}';
+        return countryName;
     }
 }

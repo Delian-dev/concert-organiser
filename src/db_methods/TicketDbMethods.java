@@ -3,6 +3,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.Concert;
 import models.Ticket;
 import models.TicketType;
 import utils.Database;
@@ -114,4 +115,48 @@ public class TicketDbMethods {
         }
         return null;
     }
+
+    public List<Ticket> selectTicketsByConcertId(int concertId){
+        List<Ticket> tickets = new ArrayList<>();
+        try(Connection conn=Database.getConnection()){
+            final String selectTicketByConcertId = "select * from ticket where id_concert=?";
+            try(PreparedStatement stmt = conn.prepareStatement(selectTicketByConcertId)){
+                stmt.setInt(1, concertId);
+                ResultSet rs = stmt.executeQuery();
+                while(rs.next()){
+                    int id = rs.getInt("id_ticket");
+                    int price = rs.getInt("price");
+                    String ticketTypeStr = rs.getString("ticket_type");
+                    TicketType ticketType = TicketType.valueOf(ticketTypeStr);
+                    tickets.add(new Ticket(id,price,ticketType));
+                }
+            }
+        } catch (SQLException ex){
+            System.out.println("Error: "+ex.getMessage());
+        }
+        return tickets;
+    }
+
+    public List<Ticket> selectTicketsByClientId(int clientId){
+        List<Ticket> tickets = new ArrayList<>();
+        try(Connection conn=Database.getConnection()){
+            final String selectTicketByClientId = "select * from ticket where id_client=?";
+            try(PreparedStatement stmt = conn.prepareStatement(selectTicketByClientId)){
+                stmt.setInt(1, clientId);
+                ResultSet rs = stmt.executeQuery();
+                while(rs.next()){
+                    int id = rs.getInt("id_ticket");
+                    int price = rs.getInt("price");
+                    String ticketTypeStr = rs.getString("ticket_type");
+                    TicketType ticketType = TicketType.valueOf(ticketTypeStr);
+                    String transactionDate = rs.getString("transaction_date");
+                    tickets.add(new Ticket(id,price,ticketType,transactionDate));
+                }
+            }
+        } catch (SQLException ex){
+            System.out.println("Error: "+ex.getMessage());
+        }
+        return tickets;
+    }
+
 }

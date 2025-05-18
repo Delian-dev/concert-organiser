@@ -137,4 +137,17 @@ public class SoloArtistDbMethods {
         }
         return null;
     }
+
+//    public List<SoloArtist> selectSoloArtistByConcertId(int concert_id) {
+//        List<SoloArtist> soloArtists = new ArrayList<>();
+//        try(Connection conn = Database.getConnection()){
+//            final String selectArtist = "select * from solo_artist sa join main.musician m on m.id_musician = sa.id_musician where m.=?";
+//            try(PreparedStatement stmt = conn.prepareStatement(selectArtist)){
+//                stmt.setInt(1, concert_id);
+//            }
+//        } catch (SQLException ex){
+//            System.out.println("Error: " + ex.getMessage());
+//        }
+//        return soloArtists;
+//    }
 }

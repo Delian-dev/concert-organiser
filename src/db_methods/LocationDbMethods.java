@@ -114,4 +114,24 @@ public class LocationDbMethods {
         }
         return null;
     }
+
+    public List<Location> selectLocationByCountry(int countryId){
+        List<Location> locations = new ArrayList<>();
+        try(Connection conn = Database.getConnection()){
+            final String getLocations = "Select * from location where id_country=?";
+            try(PreparedStatement stmt = conn.prepareStatement(getLocations)){
+                stmt.setInt(1, countryId);
+                ResultSet rs = stmt.executeQuery();
+                while(rs.next()){
+                    int locationId = rs.getInt("id_location");
+                    String city = rs.getString("city");
+                    String address = rs.getString("address");
+                    locations.add(new Location(locationId, countryId, city, address));
+                }
+            }
+        } catch (SQLException ex){
+            System.out.println("Error: " + ex.getMessage());
+        }
+        return locations;
+    }
 }

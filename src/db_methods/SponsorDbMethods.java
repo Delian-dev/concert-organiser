@@ -1,9 +1,13 @@
 package db_methods;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import models.Sponsor;
+import models.SponsorConcert;
+import models.SponsorType;
 import utils.Database;
 
 public class SponsorDbMethods {
@@ -91,5 +95,33 @@ public class SponsorDbMethods {
             System.out.println("Error: "+ex.getMessage());
         }
         return null;
+    }
+
+    public Map<Sponsor, SponsorType> getSponsorsbyConcertId(int concertId){
+        Map<Sponsor, SponsorType> sponsorsMap = new LinkedHashMap<>();
+        try(Connection conn = Database.getConnection()){
+            final String getSponsors = " SELECT" +
+                    " s.sponsor_name,s.market_value,sc.sponsor_type" +
+                    "            FROM sponsor_concert sc" +
+                    "            JOIN sponsor s ON sc.id_sponsor = s.id_sponsor" +
+                    "            WHERE sc.id_concert = ?;";
+            try(PreparedStatement stmt = conn.prepareStatement(getSponsors)){
+                stmt.setInt(1, concertId);
+                ResultSet rs = stmt.executeQuery();
+                while(rs.next()){
+                    int id = rs.getInt("id_sponsor");
+                    String name = rs.getString("sponsor_name");
+                    long value = rs.getLong("market_value");
+                    Sponsor sponsor = new Sponsor(id, name, value);
+
+                    SponsorType sponsorType = SponsorType.valueOf(rs.getString("sponsor_type").toUpperCase());
+
+                    sponsorsMap.put(sponsor, sponsorType);
+                }
+            }
+        } catch (SQLException ex){
+            System.out.println("Error: "+ex.getMessage());
+        }
+        return sponsorsMap;
     }
 }

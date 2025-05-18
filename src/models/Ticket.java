@@ -19,6 +19,20 @@ public class Ticket {
         this.transactionDate = transactionDate;
     }
 
+    public Ticket(int ticketId, int concertId, int price, String transactionDate) {
+        this.ticketId = ticketId;
+        this.concertId = concertId;
+        this.price = price;
+        this.transactionDate = transactionDate;
+    }
+
+    public Ticket(int ticketId, int price, TicketType ticketType, String transactionDate) {
+        this.ticketId = ticketId;
+        this.price = price;
+        this.ticketType = ticketType;
+        this.transactionDate = transactionDate;
+    }
+
     public Ticket(int ticketId, int concertId, int clientId, int price, TicketType ticketType, String transactionDate) {
         this.ticketId = ticketId;
         this.concertId = concertId;
@@ -35,6 +49,13 @@ public class Ticket {
         this.ticketType = ticketType;
         this.transactionDate = transactionDate;
     }
+
+    public Ticket(int ticketId,  int price, TicketType ticketType) {
+        this.ticketId = ticketId;
+        this.price = price;
+        this.ticketType = ticketType;
+    }
+
 
     public int getTicketId() {return ticketId;}
     public int getConcertId() {return concertId;}

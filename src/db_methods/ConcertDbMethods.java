@@ -114,4 +114,25 @@ public class ConcertDbMethods {
         }
         return null;
     }
+
+    public List<Concert> selectConcertsByLocation(int locationId){
+        List<Concert> concerts = new ArrayList<>();
+        try(Connection conn = Database.getConnection()){
+            final String selectConcertsByLocation = "select * from concert where id_location = ?";
+            try(PreparedStatement stmt = conn.prepareStatement(selectConcertsByLocation)){
+                stmt.setInt(1,locationId);
+                ResultSet rs = stmt.executeQuery();
+                while(rs.next()) {
+                    int id = rs.getInt("id_concert");
+                    String concertName = rs.getString("concert_name");
+                    String date = rs.getString("date");
+                    int capacity = rs.getInt("capacity");
+                    concerts.add(new Concert(id,locationId, concertName, date, capacity));
+                }
+            }
+        } catch (SQLException ex){
+            System.out.println("Error: "+ex.getMessage());
+        }
+        return concerts;
+    }
 }

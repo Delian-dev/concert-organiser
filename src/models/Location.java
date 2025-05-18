@@ -30,11 +30,12 @@ public class Location {
 
     @Override
     public String toString() {
-        return "Location{" +
-                "locationId=" + locationId +
-                ", countryId=" + countryId +
-                ", city='" + city + '\'' +
-                ", address='" + address + '\'' +
-                '}';
+//        return "Location{" +
+//                "locationId=" + locationId +
+//                ", countryId=" + countryId +
+//                ", city='" + city + '\'' +
+//                ", address='" + address + '\'' +
+//                '}';
+        return city+" - "+address;
     }
 }
