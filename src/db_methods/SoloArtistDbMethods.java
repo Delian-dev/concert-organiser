@@ -7,7 +7,7 @@ import models.SoloArtist;
 import utils.Database;
 
 public class SoloArtistDbMethods {
-    public void insertSoloArtist(SoloArtist soloArtist) {
+    public void insertSoloArtist(SoloArtist soloArtist) throws SQLException {
         try(Connection conn = Database.getConnection()){
             try(Statement pragmaStmt = conn.createStatement()){
                 pragmaStmt.execute("pragma foreign_keys = ON");
@@ -16,29 +16,37 @@ public class SoloArtistDbMethods {
             final String insertSoloArtist = "insert into solo_artist(id_musician, birthdate, instrument) values (?,?,?)";
             final String insertMusician = "insert into musician(name, genre) values (?, ?)";
 
+            int generatedMusicianId = -1;
             //inserare in tabela muzician
             try(PreparedStatement stmt = conn.prepareStatement(insertMusician)){
                 stmt.setString(1, soloArtist.getName());
                 stmt.setString(2, soloArtist.getGenre());
                 stmt.executeUpdate();
+
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        generatedMusicianId = generatedKeys.getInt(1);
+                    } else {
+                        conn.rollback();
+                        throw new SQLException("Inserting musician failed, no ID obtained.");
+                    }
+                }
             }
             conn.commit();
 
             //inserare in tabela artistsolo
             try(PreparedStatement stmt = conn.prepareStatement(insertSoloArtist)){
-                stmt.setInt(1, soloArtist.getMusicianId());
+                stmt.setInt(1, generatedMusicianId);
                 stmt.setString(2, soloArtist.getBirthdate());
                 stmt.setString(3, soloArtist.getInstrument());
                 stmt.executeUpdate();
             }
             conn.commit();
 
-        } catch (SQLException ex){
-            System.out.println("Error: " + ex.getMessage());
         }
     }
 
-    public void updateSoloArtist(SoloArtist soloArtist) {
+    public void updateSoloArtist(SoloArtist soloArtist)  throws SQLException {
         try(Connection conn = Database.getConnection()){
             try(Statement pragmaStmt = conn.createStatement()){
                 pragmaStmt.execute("pragma foreign_keys = ON");
@@ -65,8 +73,6 @@ public class SoloArtistDbMethods {
             }
             conn.commit();
 
-        } catch (SQLException ex){
-            System.out.println("Error: " + ex.getMessage());
         }
     }
 
@@ -97,7 +103,11 @@ public class SoloArtistDbMethods {
     public List<SoloArtist> selectAll() {
         List<SoloArtist> soloArtists = new ArrayList<>();
         try(Connection conn = Database.getConnection()){
-            final String selectAll = "select * from solo_artist";
+            final String selectAll = """
+                    SELECT m.id_musician, m.name, m.genre, sa.birthdate, sa.instrument
+                    FROM solo_artist sa
+                    JOIN musician m ON sa.id_musician = m.id_musician
+                """;
 
             try(PreparedStatement stmt = conn.prepareStatement(selectAll)){
                 ResultSet rs = stmt.executeQuery();

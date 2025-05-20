@@ -11,23 +11,22 @@ import models.SponsorType;
 import utils.Database;
 
 public class SponsorDbMethods {
-    void insertSponsor(Sponsor sponsor) {
-        try(Connection conn = Database.getConnection()){
+    public void insertSponsor(Sponsor sponsor) throws SQLException {
+        try (Connection conn = Database.getConnection()) {
             conn.setAutoCommit(false);
-            final String insertSponsor="insert into sponsor(sponsor_name, market_value) values(?,?)";
-            try(PreparedStatement stmt = conn.prepareStatement(insertSponsor)){
+            final String insertSponsor = "insert into sponsor(sponsor_name, market_value) values(?,?)";
+
+            try (PreparedStatement stmt = conn.prepareStatement(insertSponsor)) {
                 stmt.setString(1, sponsor.getSponsorName());
                 stmt.setLong(2, sponsor.getMarketValue());
                 stmt.executeUpdate();
             }
-            conn.commit();
 
-        } catch (SQLException ex){
-            System.out.println("Error: "+ex.getMessage());
+            conn.commit();
         }
     }
 
-    void updateSponsor(Sponsor sponsor) {
+    public void updateSponsor(Sponsor sponsor) {
         try(Connection conn =  Database.getConnection()){
             conn.setAutoCommit(false);
             final String updateSponsor = "update sponsor set sponsor_name=?, market_value=? where id_sponsor=?";
@@ -45,7 +44,7 @@ public class SponsorDbMethods {
         }
     }
 
-    void deleteSponsor(int id){
+    public void deleteSponsor(int id){
         try(Connection conn = Database.getConnection()){
             conn.setAutoCommit(false);
             final String deleteSponsor = "delete from sponsor where id_sponsor=?";

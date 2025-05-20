@@ -9,7 +9,7 @@ import utils.Database;
 import validations.Validator;
 
 public class ConcertDbMethods {
-    public void insertConcert(Concert concert) {
+    public void insertConcert(Concert concert) throws SQLException {
         try(Connection conn = Database.getConnection()){
             try(Statement pragmaStmt = conn.createStatement()){
                 pragmaStmt.execute("PRAGMA foreign_keys = ON;");
@@ -27,12 +27,10 @@ public class ConcertDbMethods {
             }
             conn.commit();
 
-        } catch(SQLException e){
-            System.out.println("Error: "+e.getMessage());
         }
     }
 
-    public void updateConcert(Concert concert) {
+    public void updateConcert(Concert concert) throws SQLException {
         try(Connection conn = Database.getConnection()){
             try(Statement pragmaStmt = conn.createStatement()){
                 pragmaStmt.execute("PRAGMA foreign_keys = ON;");
@@ -50,8 +48,6 @@ public class ConcertDbMethods {
             }
             conn.commit();
 
-        } catch(SQLException e){
-            System.out.println("Error: "+e.getMessage());
         }
     }
 

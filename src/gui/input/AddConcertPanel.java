@@ -1,5 +1,6 @@
 package gui.input;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -143,6 +144,9 @@ public class AddConcertPanel extends JPanel {
             JOptionPane.showMessageDialog(this, e.getMessage());
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Invalid capacity number.");
+        }
+        catch(SQLException ex){
+            JOptionPane.showMessageDialog(this, "SQL Error: " + "Capacity must be a positive integer.");
         }
     }
 }

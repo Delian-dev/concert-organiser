@@ -1,10 +1,11 @@
-package gui;
+package gui.panels;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.util.List;
 
+import gui.MainFrame;
 import models.Country;
 import models.Location;
 import db_methods.CountryDbMethods;
@@ -30,13 +31,31 @@ public class CountriesPanel extends JPanel {
 
         List<Country> countries = countryService.selectAll();
         for (Country country : countries) {
-            JPanel countryPanel = new JPanel(new BorderLayout());
-            countryPanel.setBorder(BorderFactory.createTitledBorder(country.getCountry_name()));
+            JPanel countryPanel = new JPanel();
+            countryPanel.setLayout(new BoxLayout(countryPanel, BoxLayout.Y_AXIS));
+            countryPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+            countryPanel.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createTitledBorder(""),
+                    BorderFactory.createEmptyBorder(10, 10, 10, 10)
+            ));
 
-            JButton expandButton = new JButton("▶");
+            JPanel headerPanel = new JPanel(new BorderLayout());
+            headerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+            JButton expandButton = new JButton("▼");
+            expandButton.setPreferredSize(new Dimension(40, 30));
+
+            JLabel countryLabel = new JLabel(country.getCountry_name(), SwingConstants.CENTER);
+            countryLabel.setFont(new Font("Arial", Font.BOLD, 16));
+
+            headerPanel.add(expandButton, BorderLayout.WEST);
+            headerPanel.add(countryLabel, BorderLayout.CENTER);
+
             JPanel locationsPanel = new JPanel();
             locationsPanel.setLayout(new BoxLayout(locationsPanel, BoxLayout.Y_AXIS));
-            locationsPanel.setVisible(false); // collapsed by default
+            locationsPanel.setVisible(false);
+
+            countryPanel.add(headerPanel);
+            countryPanel.add(locationsPanel);
 
             expandButton.addActionListener(e -> {
                 if (locationsPanel.isVisible()) {
@@ -61,10 +80,21 @@ public class CountriesPanel extends JPanel {
             countryPanel.add(expandButton, BorderLayout.WEST);
             countryPanel.add(locationsPanel, BorderLayout.SOUTH);
             listPanel.add(countryPanel);
+            listPanel.add(Box.createVerticalStrut(20));
         }
 
-        JButton addLocationBtn = new JButton("➕ Add Location");
+        JButton addLocationBtn = new JButton("Add Location");
+        int width = 120;
+        int height = 30;
+        Dimension fixedSize = new Dimension(width, height);
+        addLocationBtn.setPreferredSize(fixedSize);
+        addLocationBtn.setMaximumSize(fixedSize);
+        addLocationBtn.setMinimumSize(fixedSize);
         addLocationBtn.addActionListener(e -> mainFrame.showPanel("locationForm")); // Switch to a form panel
-        add(addLocationBtn, BorderLayout.SOUTH);
+
+        JPanel locationButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        locationButtonPanel.add(addLocationBtn);
+
+        add(locationButtonPanel, BorderLayout.SOUTH);
     }
 }

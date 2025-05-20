@@ -2,10 +2,12 @@ package services.input;
 import models.SoloArtist;
 import exceptions.InvalidDateException;
 import validations.DateValidator;
+
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class SoloArtistInput {
-    public static SoloArtist createSoloArtistInput(){
+    public static SoloArtist createSoloArtistInput() {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("Artist Name: ");

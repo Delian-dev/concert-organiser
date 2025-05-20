@@ -7,37 +7,48 @@ import models.Band;
 import utils.Database;
 
 public class BandDbMethods {
-    public void insertBand(Band Band) {
-        try(Connection conn = Database.getConnection()){
-            try(Statement pragmaStmt = conn.createStatement()){
-                pragmaStmt.execute("pragma foreign_keys = ON");
+    public void insertBand(Band band) throws SQLException {
+        try (Connection conn = Database.getConnection()) {
+            try (Statement pragmaStmt = conn.createStatement()) {
+                pragmaStmt.execute("PRAGMA foreign_keys = ON");
             }
+
             conn.setAutoCommit(false);
-            final String insertBand = "insert into band(id_musician, date_formed) values(?,?)";
-            final String insertMusician = "insert into musician(name, genre) values (?, ?)";
 
-            //inserare in tabela muzician
-            try(PreparedStatement stmt = conn.prepareStatement(insertMusician)){
-                stmt.setString(1, Band.getName());
-                stmt.setString(2, Band.getGenre());
+            final String insertMusician = "INSERT INTO musician(name, genre) VALUES (?, ?)";
+            final String insertBand = "INSERT INTO band(id_musician, date_formed) VALUES(?, ?)";
+
+            int generatedMusicianId = -1;
+
+            // Insert into musician
+            try (PreparedStatement stmt = conn.prepareStatement(insertMusician, Statement.RETURN_GENERATED_KEYS)) {
+                stmt.setString(1, band.getName());
+                stmt.setString(2, band.getGenre());
+                stmt.executeUpdate();
+
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        generatedMusicianId = generatedKeys.getInt(1);
+                    } else {
+                        conn.rollback();
+                        throw new SQLException("Inserting musician failed, no ID obtained.");
+                    }
+                }
+            }
+
+            // Insert into band
+            try (PreparedStatement stmt = conn.prepareStatement(insertBand)) {
+                stmt.setInt(1, generatedMusicianId);
+                stmt.setString(2, band.getDateFormed());
                 stmt.executeUpdate();
             }
-            conn.commit();
 
-            //inserare in tabela band
-            try(PreparedStatement stmt = conn.prepareStatement(insertBand)){
-                stmt.setInt(1, Band.getMusicianId());
-                stmt.setString(2, Band.getDateFormed());
-                stmt.executeUpdate();
-            }
             conn.commit();
-
-        } catch (SQLException ex){
-            System.out.println("Error: " + ex.getMessage());
         }
     }
 
-    public void updateBand(Band Band) {
+
+    public void updateBand(Band Band) throws SQLException {
         try(Connection conn = Database.getConnection()){
             try(Statement pragmaStmt = conn.createStatement()){
                 pragmaStmt.execute("pragma foreign_keys = ON");
@@ -63,8 +74,6 @@ public class BandDbMethods {
             }
             conn.commit();
 
-        } catch (SQLException ex){
-            System.out.println("Error: " + ex.getMessage());
         }
     }
 
@@ -95,7 +104,11 @@ public class BandDbMethods {
     public List<Band> selectAll() {
         List<Band> Bands = new ArrayList<>();
         try(Connection conn = Database.getConnection()){
-            final String selectAll = "select * from band";
+            final String selectAll = """
+                    SELECT m.id_musician, m.name, m.genre, b.date_formed
+                    FROM band b
+                    JOIN musician m ON b.id_musician = m.id_musician
+                """;
 
             try(PreparedStatement stmt = conn.prepareStatement(selectAll)){
                 ResultSet rs = stmt.executeQuery();
