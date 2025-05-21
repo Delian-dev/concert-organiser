@@ -49,7 +49,7 @@ public class SponsorsPanel extends JPanel {
         add(buttonsPanel, BorderLayout.SOUTH);
     }
 
-    private void loadSponsorsIntoList() {
+    public void loadSponsorsIntoList() {
         SponsorDbMethods sponsorService = new SponsorDbMethods();
         List<Sponsor> sponsors = sponsorService.selectAll();
 
@@ -85,9 +85,8 @@ public class SponsorsPanel extends JPanel {
 
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    // Placeholder for sponsor details logic
-                    System.out.println("Clicked on sponsor: " + s.getSponsorName());
-                    // mainFrame.showSponsorDetailsPanel(s);
+                    mainFrame.getSponsorDetailsPanel().setSponsor(s);
+                    mainFrame.showPanel("sponsorDetails");
                 }
             });
 

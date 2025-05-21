@@ -25,8 +25,8 @@ public class Sponsor {
     public String getSponsorName() { return sponsorName; }
     public long getMarketValue() { return marketValue; }
 
-    void setSponsorName(String sponsorName) { this.sponsorName = sponsorName; }
-    void setMarketValue(long marketValue) { this.marketValue = marketValue; }
+    public void setSponsorName(String sponsorName) { this.sponsorName = sponsorName; }
+    public void setMarketValue(long marketValue) { this.marketValue = marketValue; }
 
     @Override
     public String toString() {

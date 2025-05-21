@@ -76,7 +76,7 @@ public class SoloArtistDbMethods {
         }
     }
 
-    public void deleteSoloArtist(int id) {
+    public void deleteSoloArtist(int id) throws SQLException {
         try(Connection conn = Database.getConnection()){
             try(Statement pragmaStmt = conn.createStatement()){
                 pragmaStmt.execute("pragma foreign_keys = ON");
@@ -99,8 +99,6 @@ public class SoloArtistDbMethods {
             }
             conn.commit();
 
-        } catch (SQLException ex){
-            System.out.println("Error: " + ex.getMessage());
         }
     }
 
@@ -130,7 +128,7 @@ public class SoloArtistDbMethods {
         return soloArtists;
     }
 
-    public SoloArtist selectSoloArtistById(int id) {
+    public SoloArtist selectSoloArtistById(int id) throws SQLException{
         try(Connection conn = Database.getConnection()){
             final String selectArtist = "select * from solo_artist where id_musician=?";
             try(PreparedStatement stmt = conn.prepareStatement(selectArtist)){

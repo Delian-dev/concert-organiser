@@ -6,6 +6,7 @@ import gui.MainFrame;
 import gui.components.RoundedBorder;
 import gui.components.RoundedPanel;
 import models.Band;
+import models.Musician;
 import models.SoloArtist;
 
 import javax.swing.*;
@@ -22,12 +23,10 @@ public class MusiciansPanel extends JPanel {
         this.mainFrame = mainFrame;
         setLayout(new BorderLayout());
 
-        // Header
         JLabel header = new JLabel("🎵 Musicians", SwingConstants.CENTER);
         header.setFont(new Font("Arial", Font.BOLD, 24));
         add(header, BorderLayout.NORTH);
 
-        // Scrollable list panel
         musiciansListPanel = new JPanel();
         musiciansListPanel.setLayout(new BoxLayout(musiciansListPanel, BoxLayout.Y_AXIS));
         musiciansListPanel.setBackground(Color.WHITE);
@@ -37,7 +36,6 @@ public class MusiciansPanel extends JPanel {
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         add(scrollPane, BorderLayout.CENTER);
 
-        // Buttons panel
         JPanel buttonsPanel = new JPanel();
         JButton loadMusiciansBtn = new JButton("Load Musicians");
         JButton addMusicianBtn = new JButton("Add Musician");
@@ -51,7 +49,7 @@ public class MusiciansPanel extends JPanel {
         add(buttonsPanel, BorderLayout.SOUTH);
     }
 
-    private void loadMusiciansIntoList() {
+    public void loadMusiciansIntoList() {
         SoloArtistDbMethods soloService = new SoloArtistDbMethods();
         BandDbMethods bandService = new BandDbMethods();
 
@@ -59,29 +57,85 @@ public class MusiciansPanel extends JPanel {
         List<Band> bands = bandService.selectAll();
 
         musiciansListPanel.removeAll();
-        //System.out.println("here");
+
         for (SoloArtist s : soloArtists) {
-            musiciansListPanel.add(createMusicianCard(
-                    "Solo Artist",
-                    s.getName(),
-                    s.getGenre(),
-                    "Instrument: " + s.getInstrument() + " | Birthdate: " + s.getBirthdate()
-            ));
-            musiciansListPanel.add(Box.createVerticalStrut(25));
+            musiciansListPanel.add(createSoloArtistCard(s));
+            musiciansListPanel.add(Box.createVerticalStrut(15));
         }
 
         for (Band b : bands) {
-            musiciansListPanel.add(createMusicianCard(
-                    "Band",
-                    b.getName(),
-                    b.getGenre(),
-                    "Formed: " + b.getDateFormed()
-            ));
-            musiciansListPanel.add(Box.createVerticalStrut(25));
+            musiciansListPanel.add(createBandCard(b));
+            musiciansListPanel.add(Box.createVerticalStrut(15));
         }
 
         musiciansListPanel.revalidate();
         musiciansListPanel.repaint();
+    }
+
+    private JPanel createSoloArtistCard(SoloArtist artist) {
+        JPanel panel = createMusicianCard(
+                "Solo Artist",
+                artist.getName(),
+                artist.getGenre(),
+                "Instrument: " + artist.getInstrument() + " | Birthdate: " + artist.getBirthdate()
+        );
+
+        panel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                panel.setBackground(new Color(173, 216, 230));
+                panel.setBorder(BorderFactory.createCompoundBorder(
+                        new RoundedBorder(15, 3, Color.BLUE),
+                        BorderFactory.createEmptyBorder(10, 20, 10, 20)
+                ));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                panel.setBackground(Color.LIGHT_GRAY);
+                panel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                mainFrame.showMusicianDetails(artist);
+            }
+        });
+
+        return panel;
+    }
+
+    private JPanel createBandCard(Band band) {
+        JPanel panel = createMusicianCard(
+                "Band",
+                band.getName(),
+                band.getGenre(),
+                "Formed: " + band.getDateFormed()
+        );
+
+        panel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                panel.setBackground(new Color(173, 216, 230));
+                panel.setBorder(BorderFactory.createCompoundBorder(
+                        new RoundedBorder(15, 3, Color.BLUE),
+                        BorderFactory.createEmptyBorder(10, 20, 10, 20)
+                ));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                panel.setBackground(Color.LIGHT_GRAY);
+                panel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                mainFrame.showMusicianDetails(band);
+            }
+        });
+
+        return panel;
     }
 
     private JPanel createMusicianCard(String type, String name, String genre, String extraInfo) {
@@ -104,30 +158,6 @@ public class MusiciansPanel extends JPanel {
         textPanel.add(genreLabel);
 
         panel.add(textPanel, BorderLayout.CENTER);
-
-        // Hover effect
-        panel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                panel.setBackground(new Color(173, 216, 230));
-                panel.setBorder(BorderFactory.createCompoundBorder(
-                        new RoundedBorder(15, 3, Color.BLUE),
-                        BorderFactory.createEmptyBorder(10, 20, 10, 20)
-                ));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                panel.setBackground(Color.LIGHT_GRAY);
-                panel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-            }
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("Clicked on musician: " + name);
-                // You can later link to a details view or popup here
-            }
-        });
 
         return panel;
     }

@@ -43,7 +43,6 @@ public class ConcertDetailsPanel extends JPanel {
         updateButton.addActionListener(e -> {
             gui.input.AddConcertPanel updatePanel = mainFrame.getAddConcertPanel();
             updatePanel.loadConcertForUpdate(currentConcert);
-            mainFrame.refreshConcerts();
             mainFrame.showPanel("addConcert");
         });
 
@@ -58,7 +57,6 @@ public class ConcertDetailsPanel extends JPanel {
             if (confirm == JOptionPane.YES_OPTION) {
                 ConcertDbMethods service = new ConcertDbMethods();
                 service.deleteConcert(currentConcert.getConcertId());
-                mainFrame.refreshConcerts();
                 mainFrame.showPanel("concerts");
             }
         });

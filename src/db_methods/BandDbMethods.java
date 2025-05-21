@@ -77,7 +77,7 @@ public class BandDbMethods {
         }
     }
 
-    public void deleteBand(int id) {
+    public void deleteBand(int id) throws SQLException{
         try(Connection conn = Database.getConnection()){
             try(Statement pragmaStmt = conn.createStatement()){
                 pragmaStmt.execute("pragma foreign_keys = ON");
@@ -100,8 +100,6 @@ public class BandDbMethods {
             }
             conn.commit();
 
-        } catch (SQLException ex){
-            System.out.println("Error: " + ex.getMessage());
         }
     }
 
@@ -130,7 +128,7 @@ public class BandDbMethods {
         return Bands;
     }
 
-    public Band selectBandById(int id) {
+    public Band selectBandById(int id) throws SQLException {
         try(Connection conn = Database.getConnection()){
             final String selectArtist = "select * from band where id_musician=?";
             try(PreparedStatement stmt = conn.prepareStatement(selectArtist)){

@@ -26,7 +26,7 @@ public class SponsorDbMethods {
         }
     }
 
-    public void updateSponsor(Sponsor sponsor) {
+    public void updateSponsor(Sponsor sponsor) throws SQLException {
         try(Connection conn =  Database.getConnection()){
             conn.setAutoCommit(false);
             final String updateSponsor = "update sponsor set sponsor_name=?, market_value=? where id_sponsor=?";
@@ -39,12 +39,10 @@ public class SponsorDbMethods {
             }
             conn.commit();
 
-        } catch (SQLException ex){
-            System.out.println("Error: "+ex.getMessage());
         }
     }
 
-    public void deleteSponsor(int id){
+    public void deleteSponsor(int id) throws SQLException{
         try(Connection conn = Database.getConnection()){
             try(Statement pragmaStmt = conn.createStatement()){
                 pragmaStmt.execute("pragma foreign_keys = ON");
@@ -57,8 +55,6 @@ public class SponsorDbMethods {
                 stmt.executeUpdate();
             }
             conn.commit();
-        } catch (SQLException ex){
-            System.out.println("Error: "+ex.getMessage());
         }
     }
 

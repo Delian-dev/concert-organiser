@@ -1,138 +1,173 @@
 package gui.input;
 
-import exceptions.InvalidDateException;
+import db_methods.BandDbMethods;
+import db_methods.SoloArtistDbMethods;
+import gui.MainFrame;
 import models.Band;
 import models.SoloArtist;
-import db_methods.SoloArtistDbMethods;
-import db_methods.BandDbMethods;
-import validations.DateValidator;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 public class AddMusicianPanel extends JPanel {
-    private final JComboBox<String> typeCombo;
-    private final JTextField nameField = new JTextField(15);
-    private final JTextField genreField = new JTextField(15);
+    private final JTextField nameTextField;
+    private final JTextField genreTextField;
+    private final JTextField extraInfoTextField;
+    private final JTextField dateTextField;
+    private final JButton submitButton;
+    private final JButton backButton;
 
-    // SoloArtist fields
-    private final JTextField birthdateField = new JTextField(15);
-    private final JTextField instrumentField = new JTextField(15);
+    private SoloArtist editingSoloArtist;
+    private Band editingBand;
 
-    // Band field
-    private final JTextField dateFormedField = new JTextField(15);
+    private final MainFrame mainFrame;
 
-    private final JPanel dynamicFieldsPanel = new JPanel(new GridBagLayout());
+    public AddMusicianPanel(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
 
-    private final SoloArtistDbMethods soloArtistService = new SoloArtistDbMethods();
-    private final BandDbMethods bandService = new BandDbMethods();
+        setLayout(new BorderLayout());
 
-    public AddMusicianPanel() {
-        setLayout(new GridBagLayout());
+        // Outer wrapper for centering
+        JPanel outerPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(6, 6, 6, 6);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
 
-        typeCombo = new JComboBox<>(new String[]{"Solo Artist", "Band"});
-        typeCombo.addActionListener(e -> updateDynamicFields());
+        // Inner form panel with labels and text fields
+        JPanel formPanel = new JPanel(new GridLayout(0, 2, 10, 10));
+        formPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        gbc.gridx = 0; gbc.gridy = 0; add(new JLabel("Musician Type:"), gbc);
-        gbc.gridx = 1; add(typeCombo, gbc);
+        nameTextField = new JTextField(20);
+        genreTextField = new JTextField(20);
+        dateTextField = new JTextField(20);
+        extraInfoTextField = new JTextField(20);
 
-        gbc.gridx = 0; gbc.gridy = 1; add(new JLabel("Name:"), gbc);
-        gbc.gridx = 1; add(nameField, gbc);
+        formPanel.add(new JLabel("Name:"));
+        formPanel.add(nameTextField);
 
-        gbc.gridx = 0; gbc.gridy = 2; add(new JLabel("Genre:"), gbc);
-        gbc.gridx = 1; add(genreField, gbc);
+        formPanel.add(new JLabel("Genre:"));
+        formPanel.add(genreTextField);
 
-        // Dynamic panel: contains solo/band fields
-        gbc.gridx = 0; gbc.gridy = 3; gbc.gridwidth = 2;
-        add(dynamicFieldsPanel, gbc);
+        formPanel.add(new JLabel("Date (Birthdate or Formed):"));
+        formPanel.add(dateTextField);
 
-        updateDynamicFields(); // show initial fields
+        formPanel.add(new JLabel("Extra Info (Instrument or empty):"));
+        formPanel.add(extraInfoTextField);
 
-        JButton submitButton = new JButton("Add Musician");
-        submitButton.addActionListener(e -> handleSubmit());
+        outerPanel.add(formPanel, gbc);
+        add(outerPanel, BorderLayout.CENTER);
 
-        gbc.gridy = 4;
-        add(submitButton, gbc);
+        // Buttons at bottom
+        JPanel buttonsPanel = new JPanel();
+        submitButton = new JButton("Add Musician");
+        backButton = new JButton("Back");
+        buttonsPanel.add(submitButton);
+        buttonsPanel.add(backButton);
+
+        add(buttonsPanel, BorderLayout.SOUTH);
+
+        submitButton.addActionListener(new SubmitListener());
+        backButton.addActionListener(e -> mainFrame.showPanel("musicians"));
     }
 
-    private void updateDynamicFields() {
-        dynamicFieldsPanel.removeAll();
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
+    public void loadSoloArtistForUpdate(SoloArtist soloArtist) {
+        editingSoloArtist = soloArtist;
+        editingBand = null;
 
-        if ("Solo Artist".equals(typeCombo.getSelectedItem())) {
-            gbc.gridx = 0; gbc.gridy = 0; dynamicFieldsPanel.add(new JLabel("Birthdate (YYYY-MM-DD):"), gbc);
-            gbc.gridx = 1; dynamicFieldsPanel.add(birthdateField, gbc);
-
-            gbc.gridx = 0; gbc.gridy = 1; dynamicFieldsPanel.add(new JLabel("Instrument:"), gbc);
-            gbc.gridx = 1; dynamicFieldsPanel.add(instrumentField, gbc);
-        } else {
-            gbc.gridx = 0; gbc.gridy = 0; dynamicFieldsPanel.add(new JLabel("Date (YYYY-MM-DD) Formed:"), gbc);
-            gbc.gridx = 1; dynamicFieldsPanel.add(dateFormedField, gbc);
-        }
-
-        dynamicFieldsPanel.revalidate();
-        dynamicFieldsPanel.repaint();
+        nameTextField.setText(soloArtist.getName());
+        genreTextField.setText(soloArtist.getGenre());
+        dateTextField.setText(soloArtist.getBirthdate());
+        extraInfoTextField.setText(soloArtist.getInstrument());
+        submitButton.setText("Update Solo Artist");
     }
 
-    private void handleSubmit() {
-        String name = nameField.getText().trim();
-        String genre = genreField.getText().trim();
+    public void loadBandForUpdate(Band band) {
+        editingBand = band;
+        editingSoloArtist = null;
 
-        if (name.isEmpty() || genre.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Name and genre are required.");
-            return;
-        }
+        nameTextField.setText(band.getName());
+        genreTextField.setText(band.getGenre());
+        dateTextField.setText(band.getDateFormed());
+        extraInfoTextField.setText("");
+        submitButton.setText("Update Band");
+    }
 
-        try {
-            if ("Solo Artist".equals(typeCombo.getSelectedItem())) {
-                String birthdate = birthdateField.getText().trim();
-                String instrument = instrumentField.getText().trim();
+    private class SubmitListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String name = nameTextField.getText().trim();
+            String genre = genreTextField.getText().trim();
+            String date = dateTextField.getText().trim();
+            String extraInfo = extraInfoTextField.getText().trim();
 
-                if (birthdate.isEmpty() || instrument.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Birthdate and instrument are required for a solo artist.");
-                    return;
-                }
-
-                DateValidator dateValidator = new DateValidator();
-                if(!dateValidator.isValid(birthdate)) {
-                    throw new InvalidDateException("Invalid birthdate format: " + birthdate);
-                }
-
-                soloArtistService.insertSoloArtist(new SoloArtist(name, genre, birthdate, instrument));
-            } else {
-                String dateFormed = dateFormedField.getText().trim();
-
-                if (dateFormed.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Date formed is required for a band.");
-                    return;
-                }
-
-                DateValidator dateValidator = new DateValidator();
-                if(!dateValidator.isValid(dateFormed)) {
-                    throw new InvalidDateException("Invalid date format: " + dateFormed);
-                }
-                bandService.insertBand(new Band(name, genre, dateFormed));
+            if (name.isEmpty() || genre.isEmpty() || date.isEmpty()) {
+                JOptionPane.showMessageDialog(AddMusicianPanel.this,
+                        "Name, Genre, and Date fields cannot be empty.");
+                return;
             }
 
-            JOptionPane.showMessageDialog(this, "Musician added successfully!");
-            clearFields();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
-        }
-        catch(InvalidDateException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage());
+            SoloArtistDbMethods soloArtistDbMethods = new SoloArtistDbMethods();
+            BandDbMethods bandDbMethods = new BandDbMethods();
+
+            try {
+                if (editingSoloArtist != null) {
+                    // Update solo artist
+                    editingSoloArtist.setName(name);
+                    editingSoloArtist.setGenre(genre);
+                    editingSoloArtist.setBirthdate(date);
+                    editingSoloArtist.setInstrument(extraInfo);
+
+                    soloArtistDbMethods.updateSoloArtist(editingSoloArtist);
+                    JOptionPane.showMessageDialog(AddMusicianPanel.this,
+                            "Solo artist updated successfully!");
+                } else if (editingBand != null) {
+                    // Update band
+                    editingBand.setName(name);
+                    editingBand.setGenre(genre);
+                    editingBand.setDateFormed(date);
+
+                    bandDbMethods.updateBand(editingBand);
+                    JOptionPane.showMessageDialog(AddMusicianPanel.this,
+                            "Band updated successfully!");
+                } else {
+                    // Add new: check if extraInfo filled to distinguish solo or band
+                    if (!extraInfo.isEmpty()) {
+                        // Add new solo artist
+                        SoloArtist newSolo = new SoloArtist(0, name, genre, date, extraInfo);
+                        soloArtistDbMethods.insertSoloArtist(newSolo);
+                        JOptionPane.showMessageDialog(AddMusicianPanel.this,
+                                "New solo artist added!");
+                    } else {
+                        // Add new band
+                        Band newBand = new Band(0, name, genre, date);
+                        bandDbMethods.insertBand(newBand);
+                        JOptionPane.showMessageDialog(AddMusicianPanel.this,
+                                "New band added!");
+                    }
+                }
+
+                clearFields();
+                mainFrame.getMusiciansPanel().loadMusiciansIntoList();
+                mainFrame.showPanel("musicians");
+
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(AddMusicianPanel.this,
+                        "Database error: " + ex.getMessage());
+            }
         }
     }
 
     private void clearFields() {
-        nameField.setText("");
-        genreField.setText("");
-        birthdateField.setText("");
-        instrumentField.setText("");
-        dateFormedField.setText("");
+        nameTextField.setText("");
+        genreTextField.setText("");
+        dateTextField.setText("");
+        extraInfoTextField.setText("");
+        submitButton.setText("Add Musician");
+        editingSoloArtist = null;
+        editingBand = null;
     }
 }

@@ -68,8 +68,40 @@ public class CountriesPanel extends JPanel {
                         locationsPanel.add(new JLabel("No locations found."));
                     } else {
                         for (Location loc : locations) {
-                            locationsPanel.add(new JLabel("📍 " + loc.getCity() + "- " + loc.getAddress()));
+                            JPanel locationRow = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 0)); // spacing: 8px horizontally
+                            locationRow.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+                            JLabel locationLabel = new JLabel("📍 " + loc.getCity() + " - " + loc.getAddress());
+
+                            JButton deleteBtn = new JButton("X");
+                            deleteBtn.setPreferredSize(new Dimension(20, 20));
+                            deleteBtn.setFont(new Font("Arial", Font.BOLD, 10));
+                            deleteBtn.setForeground(Color.RED);
+                            deleteBtn.setFocusPainted(false);
+                            deleteBtn.setBorder(BorderFactory.createEmptyBorder());
+                            deleteBtn.setContentAreaFilled(false);
+                            deleteBtn.setToolTipText("Delete this location");
+
+                            deleteBtn.addActionListener(ev -> {
+                                int confirm = JOptionPane.showConfirmDialog(
+                                        this,
+                                        "Are you sure you want to delete this location?",
+                                        "Confirm Delete",
+                                        JOptionPane.YES_NO_OPTION
+                                );
+                                if (confirm == JOptionPane.YES_OPTION) {
+                                    locationService.deleteLocation(loc.getLocationId());
+                                    locationsPanel.remove(locationRow);
+                                    locationsPanel.revalidate();
+                                    locationsPanel.repaint();
+                                }
+                            });
+
+                            locationRow.add(locationLabel);
+                            locationRow.add(deleteBtn);
+                            locationsPanel.add(locationRow);
                         }
+
                     }
                     locationsPanel.setVisible(true);
                     expandButton.setText("▼");
