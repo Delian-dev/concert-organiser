@@ -46,6 +46,10 @@ public class SponsorDbMethods {
 
     public void deleteSponsor(int id){
         try(Connection conn = Database.getConnection()){
+            try(Statement pragmaStmt = conn.createStatement()){
+                pragmaStmt.execute("pragma foreign_keys = ON");
+            }
+
             conn.setAutoCommit(false);
             final String deleteSponsor = "delete from sponsor where id_sponsor=?";
             try(PreparedStatement stmt = conn.prepareStatement(deleteSponsor)){

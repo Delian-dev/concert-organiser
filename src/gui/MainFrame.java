@@ -10,6 +10,8 @@ public class MainFrame extends JFrame {
     private final CardLayout cardLayout;
     private final JPanel contentPanel;
     private final ConcertDetailsPanel concertDetailsPanel;
+    private final AddConcertPanel addConcertPanel;
+    private final ConcertsPanel concertsPanel;
 
     public MainFrame() {
         setTitle("Concert Management");
@@ -55,19 +57,24 @@ public class MainFrame extends JFrame {
         //contentPanel.add(new DashboardPanel(), "dashboard");
         contentPanel.add(new HomePanel(), "home");
         contentPanel.add(new SponsorsPanel(this), "sponsors");
-        contentPanel.add(new ConcertsPanel(this), "concerts");
+        //contentPanel.add(new ConcertsPanel(this), "concerts");
         contentPanel.add(new MusiciansPanel(this), "musicians");
         contentPanel.add(new ClientsPanel(this), "clients");
         contentPanel.add(new CountriesPanel(this), "countries");
-        contentPanel.add(new AddConcertPanel(), "addConcert");
+        //contentPanel.add(new AddConcertPanel(), "addConcert");
         contentPanel.add(new AddSponsorPanel(), "addSponsor");
         contentPanel.add(new AddMusicianPanel(), "addMusician");
         contentPanel.add(new AddClientPanel(), "addClient");
         contentPanel.add(new AddLocationPanel(this), "locationForm");
 
+        concertsPanel = new ConcertsPanel(this);
+        contentPanel.add(concertsPanel, "concerts");
+
         concertDetailsPanel = new ConcertDetailsPanel(this);
         contentPanel.add(concertDetailsPanel, "concertDetailsForm");
         //contentPanel.add(new TicketsPanel(), "tickets");
+        addConcertPanel = new AddConcertPanel();
+        contentPanel.add(addConcertPanel, "addConcert");
 
         add(contentPanel, BorderLayout.CENTER);
         cardLayout.show(contentPanel, "home");
@@ -95,5 +102,13 @@ public class MainFrame extends JFrame {
 
     public ConcertDetailsPanel getConcertDetailsPanel() {
         return concertDetailsPanel;
+    }
+
+    public AddConcertPanel getAddConcertPanel() {
+        return addConcertPanel;
+    }
+
+    public void refreshConcerts() {
+        concertsPanel.loadConcertsIntoList();
     }
 }

@@ -79,6 +79,10 @@ public class BandDbMethods {
 
     public void deleteBand(int id) {
         try(Connection conn = Database.getConnection()){
+            try(Statement pragmaStmt = conn.createStatement()){
+                pragmaStmt.execute("pragma foreign_keys = ON");
+            }
+
             conn.setAutoCommit(false);
             final String deleteBand = "delete from band where id_musician=?";
             final String deleteMusician = "delete from musician where id_musician=?";

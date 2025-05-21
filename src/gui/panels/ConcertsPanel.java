@@ -50,7 +50,7 @@ public class ConcertsPanel extends JPanel {
         add(buttonsPanel, BorderLayout.SOUTH);
     }
 
-    private void loadConcertsIntoList() {
+    public void loadConcertsIntoList() {
         ConcertService concertService = new ConcertService();
         List<Concert> concerts = concertService.listConcerts();
 
@@ -87,7 +87,7 @@ public class ConcertsPanel extends JPanel {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     mainFrame.getConcertDetailsPanel().setConcert(c);
-                    mainFrame.showPanel("concertDetails");
+                    mainFrame.showPanel("concertDetailsForm");
                 }
             });
 
@@ -97,6 +97,12 @@ public class ConcertsPanel extends JPanel {
 
         concertsListPanel.revalidate();
         concertsListPanel.repaint();
+    }
+
+    @Override
+    public void addNotify() {
+        super.addNotify();
+        loadConcertsIntoList();
     }
 
 }

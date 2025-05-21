@@ -57,6 +57,9 @@ public class LocationDbMethods {
 
     public void deleteLocation(int id){
         try(Connection conn = Database.getConnection()){
+            try(Statement pragmaStmt = conn.createStatement()){
+                pragmaStmt.execute("pragma foreign_keys = ON");
+            }
             conn.setAutoCommit(false);
             final String deleteLocation = "Delete from location where id_location=?";
 

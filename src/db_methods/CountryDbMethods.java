@@ -46,6 +46,9 @@ public class CountryDbMethods {
 
     public void deleteCountry(int id){
         try(Connection conn = Database.getConnection()){
+            try(Statement pragmaStmt = conn.createStatement()){
+                pragmaStmt.execute("pragma foreign_keys = ON");
+            }
             conn.setAutoCommit(false);
             final String deleteCountry = "Delete from country where id_country=?";
 

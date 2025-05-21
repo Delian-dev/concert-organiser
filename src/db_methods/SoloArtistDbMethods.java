@@ -78,6 +78,10 @@ public class SoloArtistDbMethods {
 
     public void deleteSoloArtist(int id) {
         try(Connection conn = Database.getConnection()){
+            try(Statement pragmaStmt = conn.createStatement()){
+                pragmaStmt.execute("pragma foreign_keys = ON");
+            }
+
             conn.setAutoCommit(false);
             final String deleteSoloArtist = "delete from solo_artist where id_musician=?";
             final String deleteMusician = "delete from musician where id_musician=?";

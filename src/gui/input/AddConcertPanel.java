@@ -1,7 +1,6 @@
 package gui.input;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import db_methods.CountryDbMethods;
@@ -23,10 +22,13 @@ public class AddConcertPanel extends JPanel {
     private final JTextField concertDateField;
     private final JTextField concertCapacityField;
     private final JLabel messageLabel;
+    private final JButton submitButton;
 
     private final ConcertDbMethods concertService = new ConcertDbMethods();
     private final CountryDbMethods countryService = new CountryDbMethods();
     private final LocationDbMethods locationService = new LocationDbMethods();
+
+    private Concert concertToUpdate = null;
 
     public AddConcertPanel() {
         setLayout(new GridBagLayout());
@@ -77,7 +79,7 @@ public class AddConcertPanel extends JPanel {
 
         // Submit button
         gbc.gridx = 1; gbc.gridy = 6;
-        JButton submitButton = new JButton("Add Concert");
+        submitButton = new JButton("Add Concert");
         add(submitButton, gbc);
 
         // Submit handler
@@ -130,24 +132,59 @@ public class AddConcertPanel extends JPanel {
                 throw new InvalidDateException("Invalid date format: " + date);
             }
 
-            Concert concert = new Concert(selectedLocation.getLocationId(), name, date, capacity);
-            concertService.insertConcert(concert);
-            JOptionPane.showMessageDialog(this, "Concert added successfully!");
+            if (concertToUpdate == null) {
+                // Insert new concert
+                Concert concert = new Concert(selectedLocation.getLocationId(), name, date, capacity);
+                concertService.insertConcert(concert);
+                JOptionPane.showMessageDialog(this, "Concert added successfully!");
+            } else {
+                // Update existing concert
+                concertToUpdate.setConcertName(name);
+                concertToUpdate.setDate(date);
+                concertToUpdate.setCapacity(capacity);
+                concertToUpdate.setLocationId(selectedLocation.getLocationId());
+
+                concertService.updateConcert(concertToUpdate);
+                JOptionPane.showMessageDialog(this, "Concert updated successfully!");
+
+                concertToUpdate = null;
+                submitButton.setText("Add Concert");
+            }
 
             // Clear form
             concertNameField.setText("");
             concertDateField.setText("");
             concertCapacityField.setText("");
             locationDropdown.setSelectedIndex(-1);
+            messageLabel.setText("");
 
         } catch (InvalidDateException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Invalid capacity number.");
-        }
-        catch(SQLException ex){
-            JOptionPane.showMessageDialog(this, "SQL Error: " + "Capacity must be a positive integer.");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "SQL Error: " + ex.getMessage());
         }
     }
-}
 
+    public void loadConcertForUpdate(Concert concert) {
+        this.concertToUpdate = concert;
+
+        concertNameField.setText(concert.getConcertName());
+        concertDateField.setText(concert.getDate());
+        concertCapacityField.setText(String.valueOf(concert.getCapacity()));
+        submitButton.setText("Update Concert");
+
+//        // Tell user to manually select country
+//        messageLabel.setText("Please select the concert's country to load the location.");
+//
+//        // Try to pre-select location (if available)
+//        for (int i = 0; i < locationDropdown.getItemCount(); i++) {
+//            Location loc = locationDropdown.getItemAt(i);
+//            if (loc.getLocationId().equals(concert.getLocationId())) {
+//                locationDropdown.setSelectedItem(loc);
+//                break;
+//            }
+//        }
+    }
+}

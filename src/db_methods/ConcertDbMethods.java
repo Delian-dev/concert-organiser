@@ -53,6 +53,10 @@ public class ConcertDbMethods {
 
     public void deleteConcert(int id) {
         try(Connection conn = Database.getConnection()){
+            try(Statement pragmaStmt = conn.createStatement()){
+                pragmaStmt.execute("PRAGMA foreign_keys = ON;");
+            }
+
             conn.setAutoCommit(false);
             final String deleteConcert = "delete from concert where id_concert = ?";
 
