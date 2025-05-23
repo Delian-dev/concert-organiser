@@ -124,11 +124,12 @@ public class TicketDbMethods {
                 stmt.setInt(1, concertId);
                 ResultSet rs = stmt.executeQuery();
                 while(rs.next()){
-                    int id = rs.getInt("id_ticket");
+                    int client_id = rs.getInt("id_client");
                     int price = rs.getInt("price");
                     String ticketTypeStr = rs.getString("ticket_type");
                     TicketType ticketType = TicketType.valueOf(ticketTypeStr);
-                    tickets.add(new Ticket(id,price,ticketType));
+                    String transactionDate = rs.getString("transaction_date");
+                    tickets.add(new Ticket(concertId,client_id,price,ticketType,transactionDate));
                 }
             }
         } catch (SQLException ex){
@@ -145,12 +146,12 @@ public class TicketDbMethods {
                 stmt.setInt(1, clientId);
                 ResultSet rs = stmt.executeQuery();
                 while(rs.next()){
-                    int id = rs.getInt("id_ticket");
+                    int concert_id = rs.getInt("id_concert");
                     int price = rs.getInt("price");
                     String ticketTypeStr = rs.getString("ticket_type");
                     TicketType ticketType = TicketType.valueOf(ticketTypeStr);
                     String transactionDate = rs.getString("transaction_date");
-                    tickets.add(new Ticket(id,price,ticketType,transactionDate));
+                    tickets.add(new Ticket(concert_id,clientId,price,ticketType,transactionDate));
                 }
             }
         } catch (SQLException ex){

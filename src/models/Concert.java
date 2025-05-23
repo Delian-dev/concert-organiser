@@ -42,12 +42,6 @@ public class Concert {
 
     @Override
     public String toString() {
-        return "Concert{" +
-                "concertId=" + concertId +
-                ", locationId=" + locationId +
-                ", concertName='" + concertName + '\'' +
-                ", date='" + date + '\'' +
-                ", capacity=" + capacity +
-                '}';
+        return concertName + "-"+date;
     }
 }

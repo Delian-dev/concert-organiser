@@ -21,6 +21,8 @@ public class MainFrame extends JFrame {
     private final AddSponsorPanel addSponsorPanel;
     private final SponsorDetailsPanel sponsorDetailsPanel;
 
+    private final AddTicketPanel addTicketPanel;
+
     public MainFrame() {
         setTitle("Concert Management");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -76,6 +78,9 @@ public class MainFrame extends JFrame {
         addSponsorPanel = new AddSponsorPanel();
         addSponsorPanel.setMainFrame(this);
         sponsorDetailsPanel = new SponsorDetailsPanel(this);
+
+        addTicketPanel = new AddTicketPanel();
+        contentPanel.add(addTicketPanel, "addTicket");
 
         contentPanel.add(sponsorsPanel, "sponsors");
         contentPanel.add(addSponsorPanel, "addSponsor");
@@ -137,4 +142,8 @@ public class MainFrame extends JFrame {
     public SponsorsPanel getSponsorsPanel() { return sponsorsPanel; }
     public AddSponsorPanel getAddSponsorPanel() { return addSponsorPanel; }
     public SponsorDetailsPanel getSponsorDetailsPanel() { return sponsorDetailsPanel; }
+
+    public AddTicketPanel getAddTicketPanel() {
+        return addTicketPanel;
+    }
 }

@@ -1,8 +1,5 @@
 package models;
-//iar in momentul in care vreau sa fac un insert/update in db <=> cand dau set la variabile, dau check cu functiile din pachet si daca nu respecta condiftiile => catch si nu adaug nimic stricat in database
-//dupa cand efectiv creez obiecte cu constructori - o fac pe baza ce am deja in db => date corecte
-//la setters o sa trebuiasca sa am grija pt ca practic eu apelez o metoda de update in db dupa ce apelez setterul
-//sau mai degraba apelez setters doar dupa ce fac update in db idk si atunci e ca in cazul creeari de obiecte
+
 public class Ticket {
     private int ticketId;
     private int concertId;

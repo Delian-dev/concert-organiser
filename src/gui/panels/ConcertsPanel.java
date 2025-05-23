@@ -4,39 +4,58 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 
 import gui.MainFrame;
 import models.Concert;
 import services.ConcertService;
-
 import gui.components.*;
 
 public class ConcertsPanel extends JPanel {
-    private final JPanel concertsListPanel;  // container for concert panels
+    private final JPanel concertsListPanel;
     private final MainFrame mainFrame;
+    private boolean sortAscending = true;
+    private final ConcertService concertService = new ConcertService();
 
     public ConcertsPanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         setLayout(new BorderLayout());
 
-        // header
-        JLabel header = new JLabel("🎤 Concerts", SwingConstants.CENTER);
-        header.setFont(new Font("Arial", Font.BOLD, 24));
-        add(header, BorderLayout.NORTH);
+        // Top panel with header and sort dropdown
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        topPanel.setBackground(Color.WHITE);
 
-        // panel for all the concerts
+        JLabel header = new JLabel("🎤 Concerts");
+        header.setFont(new Font("Arial", Font.BOLD, 24));
+        topPanel.add(header, BorderLayout.WEST);
+
+        String[] sortOptions = {"Sort by Date ↑", "Sort by Date ↓"};
+        JComboBox<String> sortDropdown = new JComboBox<>(sortOptions);
+        sortDropdown.setMaximumSize(new Dimension(150, 30));
+
+        sortDropdown.addActionListener(e -> {
+            sortAscending = sortDropdown.getSelectedIndex() == 0;
+            loadConcertsIntoList();
+        });
+
+        topPanel.add(sortDropdown, BorderLayout.EAST);
+        add(topPanel, BorderLayout.NORTH);
+
+        // List panel
         concertsListPanel = new JPanel();
         concertsListPanel.setLayout(new BoxLayout(concertsListPanel, BoxLayout.Y_AXIS));
         concertsListPanel.setBackground(Color.WHITE);
         concertsListPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
 
-
         JScrollPane scrollPane = new JScrollPane(concertsListPanel);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         add(scrollPane, BorderLayout.CENTER);
 
-        // buttons panel (down on the page)
+        // Bottom button panel
         JPanel buttonsPanel = new JPanel();
         JButton loadConcerts = new JButton("Load Concerts");
         JButton addConcertBtn = new JButton("Add Concert");
@@ -51,10 +70,14 @@ public class ConcertsPanel extends JPanel {
     }
 
     public void loadConcertsIntoList() {
-        ConcertService concertService = new ConcertService();
-        List<Concert> concerts = concertService.listConcerts();
+        List<Concert> concerts = concertService.listConcertsSortedByDate();
+
+        if (!sortAscending) {
+            Collections.reverse(concerts);
+        }
 
         concertsListPanel.removeAll();
+
 
         for (Concert c : concerts) {
             JPanel concertPanel = new RoundedPanel();
@@ -63,11 +86,11 @@ public class ConcertsPanel extends JPanel {
             concertPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
             concertPanel.setBackground(Color.LIGHT_GRAY);
 
-            JLabel nameLabel = new JLabel(c.getConcertName(), SwingConstants.CENTER);
-            nameLabel.setFont(new Font("Arial", Font.BOLD, 18));
+            String labelText = c.getConcertName();
+            JLabel nameLabel = new JLabel(labelText, SwingConstants.CENTER);
+            nameLabel.setFont(new Font("Arial", Font.BOLD, 16));
             concertPanel.add(nameLabel, BorderLayout.CENTER);
 
-            // Hover effect
             concertPanel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
@@ -92,7 +115,7 @@ public class ConcertsPanel extends JPanel {
             });
 
             concertsListPanel.add(concertPanel);
-            concertsListPanel.add(Box.createVerticalStrut(25)); // space between panels
+            concertsListPanel.add(Box.createVerticalStrut(25));
         }
 
         concertsListPanel.revalidate();
@@ -104,5 +127,4 @@ public class ConcertsPanel extends JPanel {
         super.addNotify();
         loadConcertsIntoList();
     }
-
 }

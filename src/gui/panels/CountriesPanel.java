@@ -25,6 +25,7 @@ public class CountriesPanel extends JPanel {
 
         JPanel listPanel = new JPanel();
         listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
+        listPanel.setAlignmentY(Component.TOP_ALIGNMENT);
 
         JScrollPane scrollPane = new JScrollPane(listPanel);
         add(scrollPane, BorderLayout.CENTER);
@@ -42,7 +43,9 @@ public class CountriesPanel extends JPanel {
             JPanel headerPanel = new JPanel(new BorderLayout());
             headerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
             JButton expandButton = new JButton("▼");
-            expandButton.setPreferredSize(new Dimension(40, 30));
+            expandButton.setPreferredSize(null);
+            //expandButton.setMinimumSize(new Dimension(40, 30));
+            expandButton.setFont(new Font("Arial", Font.PLAIN, 12));
 
             JLabel countryLabel = new JLabel(country.getCountry_name(), SwingConstants.CENTER);
             countryLabel.setFont(new Font("Arial", Font.BOLD, 16));
@@ -68,7 +71,8 @@ public class CountriesPanel extends JPanel {
                         locationsPanel.add(new JLabel("No locations found."));
                     } else {
                         for (Location loc : locations) {
-                            JPanel locationRow = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 0)); // spacing: 8px horizontally
+                            JPanel locationRow = new JPanel();
+                            locationRow.setLayout(new BoxLayout(locationRow, BoxLayout.X_AXIS));
                             locationRow.setAlignmentX(Component.LEFT_ALIGNMENT);
 
                             JLabel locationLabel = new JLabel("📍 " + loc.getCity() + " - " + loc.getAddress());
@@ -78,8 +82,9 @@ public class CountriesPanel extends JPanel {
                             deleteBtn.setFont(new Font("Arial", Font.BOLD, 10));
                             deleteBtn.setForeground(Color.RED);
                             deleteBtn.setFocusPainted(false);
-                            deleteBtn.setBorder(BorderFactory.createEmptyBorder());
-                            deleteBtn.setContentAreaFilled(false);
+                            deleteBtn.setBorder(BorderFactory.createLineBorder(Color.RED));
+                            deleteBtn.setContentAreaFilled(true);
+                            deleteBtn.setBackground(Color.WHITE);
                             deleteBtn.setToolTipText("Delete this location");
 
                             deleteBtn.addActionListener(ev -> {
@@ -98,19 +103,20 @@ public class CountriesPanel extends JPanel {
                             });
 
                             locationRow.add(locationLabel);
+                            locationRow.add(Box.createRigidArea(new Dimension(8, 0)));
                             locationRow.add(deleteBtn);
                             locationsPanel.add(locationRow);
                         }
 
                     }
                     locationsPanel.setVisible(true);
+                    countryPanel.revalidate();
+                    countryPanel.repaint();
                     expandButton.setText("▼");
                     locationsPanel.revalidate();
                 }
             });
 
-            countryPanel.add(expandButton, BorderLayout.WEST);
-            countryPanel.add(locationsPanel, BorderLayout.SOUTH);
             listPanel.add(countryPanel);
             listPanel.add(Box.createVerticalStrut(20));
         }
