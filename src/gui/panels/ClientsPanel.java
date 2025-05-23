@@ -47,6 +47,8 @@ public class ClientsPanel extends JPanel {
         clientsListPanel.removeAll();
         List<Client> clients = clientService.selectAll();
 
+        clientsListPanel.add(Box.createVerticalStrut(20));
+
         for (Client client : clients) {
             clientsListPanel.add(createClientPanel(client));
             clientsListPanel.add(Box.createVerticalStrut(20));
@@ -61,79 +63,96 @@ public class ClientsPanel extends JPanel {
         clientPanel.setLayout(new BoxLayout(clientPanel, BoxLayout.Y_AXIS));
         clientPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         clientPanel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createTitledBorder(""),
-                BorderFactory.createEmptyBorder(10, 10, 10, 10)
+                BorderFactory.createLineBorder(Color.LIGHT_GRAY),
+                BorderFactory.createEmptyBorder(5, 10, 5, 10)
         ));
 
-        JPanel headerPanel = new JPanel(new BorderLayout());
-        headerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
-        JButton expandButton = new JButton("▼");
-        expandButton.setPreferredSize(null);
-        expandButton.setFont(new Font("Arial", Font.PLAIN, 12));
+        // === HEADER ROW ===
+        JPanel headerPanel = new JPanel();
+        headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.X_AXIS));
+        headerPanel.setOpaque(false);
+
+        JButton expandButton = new JButton("▶"); // ▶ collapsed by default
+        expandButton.setFont(new Font("Dialog", Font.BOLD, 14));
+        expandButton.setFocusPainted(false);
+        expandButton.setMargin(new Insets(0, 6, 0, 6));
+        expandButton.setMargin(new Insets(2, 8, 2, 8));
+        expandButton.setFocusable(false);
 
         JLabel nameLabel = new JLabel(client.getUsername() + " (" + client.getEmail() + ")");
         nameLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
 
-        headerPanel.add(expandButton, BorderLayout.WEST);
-        headerPanel.add(nameLabel, BorderLayout.CENTER);
+        JButton editButton = new JButton("Edit");
+        editButton.setFont(new Font("Arial", Font.BOLD, 14));
+        editButton.setMargin(new Insets(2, 8, 2, 8));
+        editButton.setFocusable(false);
+        editButton.setToolTipText("Edit client");
+        editButton.addActionListener(e -> {
+            mainFrame.getUpdateClientPanel().setClient(client, this::loadClients);
+            mainFrame.showPanel("updateClient");
+        });
 
+        headerPanel.add(expandButton);
+        headerPanel.add(Box.createRigidArea(new Dimension(8, 0)));
+        headerPanel.add(nameLabel);
+        headerPanel.add(Box.createHorizontalGlue());
+        headerPanel.add(editButton);
+
+        // === TICKETS PANEL ===
         JPanel ticketsPanel = new JPanel();
         ticketsPanel.setLayout(new BoxLayout(ticketsPanel, BoxLayout.Y_AXIS));
         ticketsPanel.setVisible(false);
+        ticketsPanel.setOpaque(false);
 
         expandButton.addActionListener(e -> toggleTicketsPanel(client, ticketsPanel, expandButton));
 
         clientPanel.add(headerPanel);
+        clientPanel.add(Box.createVerticalStrut(5));
         clientPanel.add(ticketsPanel);
 
         return clientPanel;
     }
 
+
+
     private void toggleTicketsPanel(Client client, JPanel ticketsPanel, JButton expandButton) {
-        if (ticketsPanel.isVisible()) {
-            ticketsPanel.setVisible(false);
-            expandButton.setText("▶");
-            return;
-        }
+        boolean showing = ticketsPanel.isVisible();
+        ticketsPanel.setVisible(!showing);
+        expandButton.setText(showing ? "▶" : "▼"); // ▶ or ▼
+        expandButton.revalidate();
+        expandButton.repaint();
 
-        List<Ticket> tickets = ticketService.selectTicketsByClientId(client.getclientId());
-        ticketsPanel.removeAll();
+        if (!showing) {
+            List<Ticket> tickets = ticketService.selectTicketsByClientId(client.getclientId());
+            ticketsPanel.removeAll();
 
-        if (tickets.isEmpty()) {
-            ticketsPanel.add(new JLabel("No tickets found."));
-        } else {
-//            for (Ticket t : tickets) {
-//                ticketsPanel.add(new JLabel("🎫 " + t.getTicketType() + " - $" + t.getPrice() + " - " + t.getTransactionDate()));
-//            }
-            for (Ticket t : tickets) {
-                String concertName = "Unknown Concert";
-                try {
-                    //System.out.println(t.getConcertId());;
-                    Concert concert = concertService.selectConcertById(t.getConcertId());
-                    if (concert != null) {
-                        concertName = concert.getConcertName();
+            if (tickets.isEmpty()) {
+                ticketsPanel.add(new JLabel("No tickets found."));
+            } else {
+                for (Ticket t : tickets) {
+                    String concertName = "Unknown Concert";
+                    try {
+                        Concert concert = concertService.selectConcertById(t.getConcertId());
+                        if (concert != null) concertName = concert.getConcertName();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
                     }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+
+                    ticketsPanel.add(new JLabel("🎫 " + t.getTicketType() + " - $" + t.getPrice() + " - " + concertName));
                 }
-
-                ticketsPanel.add(new JLabel("🎫 " + t.getTicketType() + " - $" + t.getPrice() + " - " + concertName));
             }
+
+            JButton addTicketButton = new JButton("➕ Add Ticket");
+            addTicketButton.addActionListener(e -> {
+                mainFrame.getAddTicketPanel().setClient(client);
+                mainFrame.showPanel("addTicket");
+            });
+
+            ticketsPanel.add(Box.createVerticalStrut(10));
+            ticketsPanel.add(addTicketButton);
+            ticketsPanel.revalidate();
+            ticketsPanel.repaint();
         }
-
-        JButton addTicketButton = new JButton("➕ Add Ticket");
-        addTicketButton.addActionListener(e -> {
-            mainFrame.getAddTicketPanel().setClient(client);  // assumes AddTicket has setClient method
-            mainFrame.showPanel("addTicket");
-        });
-
-        ticketsPanel.add(Box.createVerticalStrut(10));
-        ticketsPanel.add(addTicketButton);
-
-        ticketsPanel.setVisible(true);
-        expandButton.setText("▼");
-        ticketsPanel.revalidate();
-        ticketsPanel.repaint();
     }
+
 }

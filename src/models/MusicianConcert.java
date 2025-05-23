@@ -1,23 +1,23 @@
 package models;
 
 public class MusicianConcert {
-    private final int musicianId;
     private final int concertId;
+    private final int musicianId;
     private int musicianFee;
     private int performanceDuration;
 
-    public MusicianConcert(int musicianId, int concertId) {
+    public MusicianConcert(int concertId, int musicianId) {
         this.musicianId = musicianId;
         this.concertId = concertId;
     }
 
-    public MusicianConcert(int musicianId, int concertId, int musicianFee) {
+    public MusicianConcert(int concertId, int musicianId, int musicianFee) {
         this.musicianId = musicianId;
         this.concertId = concertId;
         this.musicianFee = musicianFee;
     }
 
-    public MusicianConcert(int musicianId, int concertId, int musicianFee, int performanceDuration) {
+    public MusicianConcert(int concertId,int musicianId, int musicianFee, int performanceDuration) {
         this.musicianId = musicianId;
         this.concertId = concertId;
         this.musicianFee = musicianFee;

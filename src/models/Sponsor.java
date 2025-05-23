@@ -24,15 +24,13 @@ public class Sponsor {
     public int getSponsorId() { return sponsorId; }
     public String getSponsorName() { return sponsorName; }
     public long getMarketValue() { return marketValue; }
+    public SponsorType getSponsorType() {return SponsorType.valueOf(sponsorName); }
 
     public void setSponsorName(String sponsorName) { this.sponsorName = sponsorName; }
     public void setMarketValue(long marketValue) { this.marketValue = marketValue; }
 
     @Override
     public String toString() {
-        return "Sponsor{" +
-                "sponsorName='" + sponsorName + '\'' +
-                ", marketValue=" + marketValue +
-                '}';
+        return sponsorName;
     }
 }

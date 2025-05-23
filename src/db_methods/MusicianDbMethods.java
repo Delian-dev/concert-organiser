@@ -3,6 +3,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.Concert;
 import models.Musician;
 import models.SoloArtist;
 import models.Band;
@@ -45,5 +46,33 @@ public class MusicianDbMethods {
         }
 
         return musicians;
+    }
+
+    public List<Concert> selectConcertsByMusicianId(int musicianId){
+        List<Concert> concerts = new ArrayList<>();
+        try(Connection conn = Database.getConnection()){
+            final String selectConcerts = """
+                         SELECT c.id_concert, c.concert_name, c.date, c.id_location, c.capacity
+                         FROM concert c
+                         INNER JOIN musician_concert mc ON c.id_concert = mc.id_concert
+                         WHERE mc.id_musician = ?
+                    """;
+            try(PreparedStatement stmt = conn.prepareStatement(selectConcerts)){
+                stmt.setInt(1, musicianId);
+                ResultSet rs = stmt.executeQuery();
+                while(rs.next()){
+                    int concertId = rs.getInt("id_concert");
+                    String concertName = rs.getString("concert_name");
+                    String date = rs.getString("date");
+                    int locationId = rs.getInt("id_location");
+                    int capacity = rs.getInt("capacity");
+                    concerts.add(new Concert(concertId,locationId,concertName,date,capacity));
+                }
+            }
+        } catch (SQLException ex){
+            System.out.println("Error: "+ex.getMessage());
+        }
+
+        return concerts;
     }
 }

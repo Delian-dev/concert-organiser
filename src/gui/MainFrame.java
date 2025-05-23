@@ -2,6 +2,7 @@ package gui;
 
 import gui.input.*;
 import gui.panels.*;
+import gui.associate.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,6 +23,11 @@ public class MainFrame extends JFrame {
     private final SponsorDetailsPanel sponsorDetailsPanel;
 
     private final AddTicketPanel addTicketPanel;
+
+    private final AssociateMCPanel associateMusicianConcertPanel;
+    private final AssociateSCPanel associateSponsorConcertPanel;
+
+    private final UpdateClient updateClientPanel;
 
     public MainFrame() {
         setTitle("Concert Management");
@@ -86,6 +92,15 @@ public class MainFrame extends JFrame {
         contentPanel.add(addSponsorPanel, "addSponsor");
         contentPanel.add(sponsorDetailsPanel, "sponsorDetails");
 
+        associateMusicianConcertPanel = new AssociateMCPanel(this);
+        contentPanel.add(associateMusicianConcertPanel, "associateMusician");
+
+        associateSponsorConcertPanel = new AssociateSCPanel(this);
+        contentPanel.add(associateSponsorConcertPanel, "associateSponsor");
+
+        updateClientPanel = new UpdateClient();
+        contentPanel.add(updateClientPanel, "updateClient");
+
         add(contentPanel, BorderLayout.CENTER);
 
         cardLayout.show(contentPanel, "home");
@@ -139,11 +154,39 @@ public class MainFrame extends JFrame {
         showPanel("musicianDetailsForm");
     }
 
+    public void showSponsorDetails(models.Sponsor sponsor) {
+        sponsorDetailsPanel.setSponsor(
+                sponsor,
+                () -> {
+                    addSponsorPanel.loadSponsorForUpdate(sponsor);
+                    showPanel("addSponsor");
+                },
+                () -> {
+                    sponsorsPanel.loadSponsorsIntoList();
+                    showPanel("sponsors");
+                }
+        );
+        showPanel("sponsorDetails");
+    }
+
+
     public SponsorsPanel getSponsorsPanel() { return sponsorsPanel; }
     public AddSponsorPanel getAddSponsorPanel() { return addSponsorPanel; }
     public SponsorDetailsPanel getSponsorDetailsPanel() { return sponsorDetailsPanel; }
 
     public AddTicketPanel getAddTicketPanel() {
         return addTicketPanel;
+    }
+
+    public AssociateMCPanel getAssociateMusicianConcertPanel() {
+        return associateMusicianConcertPanel;
+    }
+
+    public AssociateSCPanel getAssociateSponsorConcertPanel() {
+        return associateSponsorConcertPanel;
+    }
+
+    public UpdateClient getUpdateClientPanel() {
+        return updateClientPanel;
     }
 }

@@ -18,10 +18,6 @@ public class Band extends Musician{
 
     @Override
     public String toString() {
-        return "Band{" +
-                "name='" + getName() + '\'' +
-                ", genre='" + getGenre() + '\'' +
-                ", dateFormed='" + dateFormed + '\'' +
-                '}';
+        return getName();
     }
 }

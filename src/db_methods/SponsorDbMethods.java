@@ -7,6 +7,7 @@ import java.util.Map;
 
 import models.Sponsor;
 import models.SponsorConcert;
+import models.Concert;
 import models.SponsorType;
 import utils.Database;
 
@@ -100,7 +101,7 @@ public class SponsorDbMethods {
         Map<Sponsor, SponsorType> sponsorsMap = new LinkedHashMap<>();
         try(Connection conn = Database.getConnection()){
             final String getSponsors = " SELECT" +
-                    " s.sponsor_name,s.market_value,sc.sponsor_type" +
+                    " s.id_sponsor, s.sponsor_name,s.market_value,sc.sponsor_type" +
                     "            FROM sponsor_concert sc" +
                     "            JOIN sponsor s ON sc.id_sponsor = s.id_sponsor" +
                     "            WHERE sc.id_concert = ?;";
@@ -122,5 +123,33 @@ public class SponsorDbMethods {
             System.out.println("Error: "+ex.getMessage());
         }
         return sponsorsMap;
+    }
+
+    public List<Concert> selectConcertsBySponsorId(int sponsorId){
+        List<Concert> concerts = new ArrayList<>();
+        try(Connection conn = Database.getConnection()){
+            final String selectConcerts = """
+                         SELECT c.id_concert, c.concert_name, c.date, c.id_location, c.capacity
+                         FROM concert c
+                         INNER JOIN sponsor_concert sc ON c.id_concert = sc.id_concert
+                         WHERE sc.id_sponsor = ?
+                    """;
+            try(PreparedStatement stmt = conn.prepareStatement(selectConcerts)){
+                stmt.setInt(1, sponsorId);
+                ResultSet rs = stmt.executeQuery();
+                while(rs.next()){
+                    int concertId = rs.getInt("id_concert");
+                    String concertName = rs.getString("concert_name");
+                    String date = rs.getString("date");
+                    int locationId = rs.getInt("id_location");
+                    int capacity = rs.getInt("capacity");
+                    concerts.add(new Concert(concertId,locationId,concertName,date,capacity));
+                }
+            }
+        } catch (SQLException ex){
+            System.out.println("Error: "+ex.getMessage());
+        }
+
+        return concerts;
     }
 }

@@ -1,16 +1,22 @@
 package services;
 
-import models.*;
-import db_methods.ConcertDbMethods;
-import db_methods.MusicianDbMethods;
+import models.Concert;
+import models.Sponsor;
+import models.SponsorType;
 import db_methods.SponsorDbMethods;
-import db_methods.TicketDbMethods;
-import java.util.List;
-import java.util.Map;
 
-import java.util.Comparator;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class SponsorService {
-    
+    private final SponsorDbMethods sponsorDbMethods = new SponsorDbMethods();
+
+    public List<Sponsor> getAllSponsors() {
+        return sponsorDbMethods.selectAll();
+    }
+
+    public List<Concert> getConcertsBySponsorId(int sponsorId) {
+        return sponsorDbMethods.selectConcertsBySponsorId(sponsorId);
+    }
 }

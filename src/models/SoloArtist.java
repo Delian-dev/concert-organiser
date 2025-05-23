@@ -24,11 +24,6 @@ public class SoloArtist extends Musician {
 
     @Override
     public String toString() {
-        return "SoloArtist{" +
-                "name='" + getName() + '\'' +
-                ", genre='" + getGenre() + '\'' +
-                ", birthdate='" + birthdate + '\'' +
-                ", instrument='" + instrument + '\'' +
-                '}';
+        return getName();
     }
 }

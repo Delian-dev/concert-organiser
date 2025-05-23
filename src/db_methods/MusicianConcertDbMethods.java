@@ -10,7 +10,7 @@ public class MusicianConcertDbMethods {
     public void insertMusicianConcert(MusicianConcert musicianConcert) {
         try(Connection conn = Database.getConnection()){
             try(Statement pragmaStmt = conn.createStatement()){
-                pragmaStmt.execute("pragma foreign_keys = on ");
+                pragmaStmt.execute("PRAGMA foreign_keys=ON;");
             }
 
             conn.setAutoCommit(false);
@@ -20,6 +20,10 @@ public class MusicianConcertDbMethods {
                 stmt.setInt(2, musicianConcert.getMusicianId());
                 stmt.setInt(3, musicianConcert.getMusicianFee());
                 stmt.setInt(4, musicianConcert.getPerformanceDuration());
+//                System.out.println("Concert id: "+ musicianConcert.getConcertId());
+//                System.out.println("Musician id: "+ musicianConcert.getMusicianId());
+//                System.out.println(musicianConcert.getMusicianFee());
+//                System.out.println(musicianConcert.getPerformanceDuration());
                 stmt.executeUpdate();
             }
             conn.commit();

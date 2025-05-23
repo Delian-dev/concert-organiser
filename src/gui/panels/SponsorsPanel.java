@@ -85,8 +85,7 @@ public class SponsorsPanel extends JPanel {
 
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    mainFrame.getSponsorDetailsPanel().setSponsor(s);
-                    mainFrame.showPanel("sponsorDetails");
+                    mainFrame.showSponsorDetails(s);
                 }
             });
 
