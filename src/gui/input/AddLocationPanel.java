@@ -37,6 +37,7 @@ public class AddLocationPanel extends JPanel {
 
             locationService.insertLocation(new Location(selected.getCountryId(), city,address));
             JOptionPane.showMessageDialog(this, "Location added!");
+            services.CSV_Service.logAction("INSERT", "LOCATION");
             locationNameField.setText("");
         });
 

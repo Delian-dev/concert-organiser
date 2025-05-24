@@ -114,6 +114,7 @@ public class AssociateMCPanel extends JPanel {
             MusicianConcertDbMethods db = new MusicianConcertDbMethods();
             db.insertMusicianConcert(mc);
             JOptionPane.showMessageDialog(this, "Musician successfully associated!");
+            services.CSV_Service.logAction("ASSOCIATE", "MUSICIAN-CONCERT");
             mainFrame.getConcertDetailsPanel().setConcert(currentConcert);
             mainFrame.showPanel("concertDetailsForm");
         } catch (NumberFormatException ex) {

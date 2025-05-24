@@ -65,11 +65,13 @@ public class AddSponsorPanel extends JPanel {
                 Sponsor newSponsor = new Sponsor(name, marketValue);
                 sponsorService.insertSponsor(newSponsor);
                 JOptionPane.showMessageDialog(this, "Sponsor added!");
+                services.CSV_Service.logAction("INSERT", "SPONSOR");
             } else {
                 editingSponsor.setSponsorName(name);
                 editingSponsor.setMarketValue(marketValue);
                 sponsorService.updateSponsor(editingSponsor);
                 JOptionPane.showMessageDialog(this, "Sponsor updated!");
+                services.CSV_Service.logAction("UPDATE", "SPONSOR");
                 editingSponsor = null;
                 submitButton.setText("Add Sponsor");
             }

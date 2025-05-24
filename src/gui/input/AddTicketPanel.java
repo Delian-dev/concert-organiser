@@ -102,6 +102,7 @@ public class AddTicketPanel extends JPanel {
 
         ticketDb.insertTicket(newTicket);
         JOptionPane.showMessageDialog(this, "Ticket added successfully!");
+        services.CSV_Service.logAction("INSERT", "TICKET");
         priceField.setText("");
     }
 }

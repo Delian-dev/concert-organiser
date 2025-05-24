@@ -99,13 +99,13 @@ public class UpdateClient extends JPanel {
 
             clientDbMethods.updateClient(currentClient);
             JOptionPane.showMessageDialog(this, "Client updated successfully!");
+            services.CSV_Service.logAction("UPDATE", "CLIENT"); //csv service
 
             if (onClientUpdated != null) onClientUpdated.run();
 
         } catch (InvalidEmailException | InvalidPhoneException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Validation Error", JOptionPane.WARNING_MESSAGE);
         } catch (Exception ex) {
-            ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Update failed: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }

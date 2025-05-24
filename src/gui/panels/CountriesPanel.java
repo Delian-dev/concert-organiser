@@ -97,6 +97,7 @@ public class CountriesPanel extends JPanel {
                                 if (confirm == JOptionPane.YES_OPTION) {
                                     locationService.deleteLocation(loc.getLocationId());
                                     locationsPanel.remove(locationRow);
+                                    services.CSV_Service.logAction("DELETE", "LOCATION");
                                     locationsPanel.revalidate();
                                     locationsPanel.repaint();
                                 }

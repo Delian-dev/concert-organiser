@@ -156,6 +156,7 @@ public class ConcertDetailsPanel extends JPanel {
                     );
                     if (confirm == JOptionPane.YES_OPTION) {
                         new MusicianConcertDbMethods().deleteMusicianConcert(currentConcert.getConcertId(), m.getMusicianId());
+                        services.CSV_Service.logAction("DELETE", "MUSICIAN-CONCERT");
                         setConcert(currentConcert); // Refresh
                     }
                 });
@@ -215,6 +216,7 @@ public class ConcertDetailsPanel extends JPanel {
                     );
                     if (confirm == JOptionPane.YES_OPTION) {
                         new SponsorConcertDbMethods().deleteSponsorConcert(currentConcert.getConcertId(), sponsor.getSponsorId());
+                        services.CSV_Service.logAction("DELETE", "SPONSOR-CONCERT");
                         setConcert(currentConcert); // Refresh
                     }
                 });

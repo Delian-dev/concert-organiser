@@ -91,6 +91,7 @@ public class AssociateSCPanel extends JPanel {
         try {
             new SponsorConcertDbMethods().insertSponsorConcert(sc);
             JOptionPane.showMessageDialog(this, "Sponsor successfully associated!");
+            services.CSV_Service.logAction("ASSOCIATE", "SPONSOR-CONCERT");
             mainFrame.getConcertDetailsPanel().setConcert(currentConcert);
             mainFrame.showPanel("concertDetailsForm");
         } catch (Exception ex) {

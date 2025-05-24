@@ -39,6 +39,7 @@ public class ConcertsPanel extends JPanel {
 
         sortDropdown.addActionListener(e -> {
             sortAscending = sortDropdown.getSelectedIndex() == 0;
+            services.CSV_Service.logAction("SORT-BY-DATE", "CONCERT");
             loadConcertsIntoList();
         });
 

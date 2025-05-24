@@ -137,6 +137,7 @@ public class AddConcertPanel extends JPanel {
                 Concert concert = new Concert(selectedLocation.getLocationId(), name, date, capacity);
                 concertService.insertConcert(concert);
                 JOptionPane.showMessageDialog(this, "Concert added successfully!");
+                services.CSV_Service.logAction("INSERT", "CONCERT");
             } else {
                 // Update existing concert
                 concertToUpdate.setConcertName(name);
@@ -146,6 +147,7 @@ public class AddConcertPanel extends JPanel {
 
                 concertService.updateConcert(concertToUpdate);
                 JOptionPane.showMessageDialog(this, "Concert updated successfully!");
+                services.CSV_Service.logAction("UPDATE", "CONCERT");
 
                 concertToUpdate = null;
                 submitButton.setText("Add Concert");

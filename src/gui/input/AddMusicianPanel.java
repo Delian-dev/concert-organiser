@@ -124,6 +124,7 @@ public class AddMusicianPanel extends JPanel {
                     soloArtistDbMethods.updateSoloArtist(editingSoloArtist);
                     JOptionPane.showMessageDialog(AddMusicianPanel.this,
                             "Solo artist updated successfully!");
+                    services.CSV_Service.logAction("UPDATE", "MUSICIAN(SOLO ARTIST)");
                 } else if (editingBand != null) {
                     // Update band
                     editingBand.setName(name);
@@ -133,6 +134,7 @@ public class AddMusicianPanel extends JPanel {
                     bandDbMethods.updateBand(editingBand);
                     JOptionPane.showMessageDialog(AddMusicianPanel.this,
                             "Band updated successfully!");
+                    services.CSV_Service.logAction("UPDATE", "MUSICIAN(BAND)");
                 } else {
                     // Add new: check if extraInfo filled to distinguish solo or band
                     if (!extraInfo.isEmpty()) {
@@ -141,12 +143,14 @@ public class AddMusicianPanel extends JPanel {
                         soloArtistDbMethods.insertSoloArtist(newSolo);
                         JOptionPane.showMessageDialog(AddMusicianPanel.this,
                                 "New solo artist added!");
+                        services.CSV_Service.logAction("INSERT", "MUSICIAN(SOLO ARTIST)");
                     } else {
                         // Add new band
                         Band newBand = new Band(0, name, genre, date);
                         bandDbMethods.insertBand(newBand);
                         JOptionPane.showMessageDialog(AddMusicianPanel.this,
                                 "New band added!");
+                        services.CSV_Service.logAction("INSERT", "MUSICIAN(BAND)");
                     }
                 }
 

@@ -108,6 +108,7 @@ public class AddClientPanel extends JPanel {
 
                 clientService.insertClient(client);
                 JOptionPane.showMessageDialog(this, "Client added successfully!");
+                services.CSV_Service.logAction("INSERT", "CLIENT");
 
                 // Clear fields
                 nameField.setText("");
