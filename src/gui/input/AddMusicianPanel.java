@@ -110,8 +110,8 @@ public class AddMusicianPanel extends JPanel {
                 return;
             }
 
-            SoloArtistDbMethods soloArtistDbMethods = new SoloArtistDbMethods();
-            BandDbMethods bandDbMethods = new BandDbMethods();
+            SoloArtistDbMethods soloArtistDbMethods = SoloArtistDbMethods.getInstance();
+            BandDbMethods bandDbMethods = BandDbMethods.getInstance();
 
             try {
                 if (editingSoloArtist != null) {

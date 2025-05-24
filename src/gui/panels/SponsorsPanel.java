@@ -50,7 +50,7 @@ public class SponsorsPanel extends JPanel {
     }
 
     public void loadSponsorsIntoList() {
-        SponsorDbMethods sponsorService = new SponsorDbMethods();
+        SponsorDbMethods sponsorService = SponsorDbMethods.getInstance();
         List<Sponsor> sponsors = sponsorService.selectAll();
 
         sponsorsListPanel.removeAll();

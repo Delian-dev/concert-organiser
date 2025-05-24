@@ -8,6 +8,13 @@ import models.SponsorType;
 import utils.Database;
 
 public class SponsorConcertDbMethods {
+    private static final SponsorConcertDbMethods instance = new SponsorConcertDbMethods();
+    private SponsorConcertDbMethods() {}
+
+    public static SponsorConcertDbMethods getInstance() {
+        return instance;
+    }
+
     public void insertSponsorConcert(SponsorConcert SponsorConcert) {
         try(Connection conn = Database.getConnection()){
             try(Statement pragmaStmt = conn.createStatement()){

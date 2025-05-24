@@ -9,7 +9,7 @@ import java.awt.*;
 import java.sql.SQLException;
 
 public class AddSponsorPanel extends JPanel {
-    private final SponsorDbMethods sponsorService = new SponsorDbMethods();
+    private final SponsorDbMethods sponsorService = SponsorDbMethods.getInstance();
     private final JTextField sponsorNameField;
     private final JTextField sponsorMarketValueField;
     private final JButton submitButton;

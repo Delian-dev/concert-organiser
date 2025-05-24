@@ -8,6 +8,13 @@ import java.util.List;
 
 public class CountryDbMethods {
 
+    private static final CountryDbMethods instance = new CountryDbMethods();
+    private CountryDbMethods() {}
+
+    public static CountryDbMethods getInstance() {
+        return instance;
+    }
+
     public void insertCountry(Country country){
         try(Connection conn = Database.getConnection()){
             conn.setAutoCommit(false);

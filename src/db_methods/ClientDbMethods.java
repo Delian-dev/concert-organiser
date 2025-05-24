@@ -7,6 +7,14 @@ import models.Client;
 import utils.Database;
 //POT FACE O INTERFATA NUMITA DBMETHODS CU FUNCTIILE DE BAZS SI TIP T PT A PUTEA DA OVERWRITE DUPA CU FIECARE TIP DE OBIECT
 public class ClientDbMethods {
+
+    private static final ClientDbMethods instance = new ClientDbMethods();
+    private ClientDbMethods() {}
+
+    public static ClientDbMethods getInstance() {
+        return instance;
+    }
+
     public void insertClient(Client client) throws SQLException {
         try(Connection conn = Database.getConnection()){
             conn.setAutoCommit(false);

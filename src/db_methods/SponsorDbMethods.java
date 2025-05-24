@@ -12,6 +12,13 @@ import models.SponsorType;
 import utils.Database;
 
 public class SponsorDbMethods {
+    private static final SponsorDbMethods instance = new SponsorDbMethods();
+    private SponsorDbMethods() {}
+
+    public static SponsorDbMethods getInstance() {
+        return instance;
+    }
+
     public void insertSponsor(Sponsor sponsor) throws SQLException {
         try (Connection conn = Database.getConnection()) {
             conn.setAutoCommit(false);

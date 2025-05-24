@@ -18,7 +18,7 @@ public class AddClientPanel extends JPanel {
     private final JTextField phoneField;
     private final JLabel messageLabel;
 
-    private final ClientDbMethods clientService = new ClientDbMethods();
+    private final ClientDbMethods clientService = ClientDbMethods.getInstance();
 
     public AddClientPanel() {
         setLayout(new GridBagLayout());

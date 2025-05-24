@@ -7,6 +7,13 @@ import models.SoloArtist;
 import utils.Database;
 
 public class SoloArtistDbMethods {
+    private static final SoloArtistDbMethods instance = new SoloArtistDbMethods();
+    private SoloArtistDbMethods() {}
+
+    public static SoloArtistDbMethods getInstance() {
+        return instance;
+    }
+
     public void insertSoloArtist(SoloArtist soloArtist) throws SQLException {
         try(Connection conn = Database.getConnection()){
             try(Statement pragmaStmt = conn.createStatement()){

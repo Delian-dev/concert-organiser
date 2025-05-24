@@ -7,6 +7,14 @@ import models.MusicianConcert;
 import utils.Database;
 
 public class MusicianConcertDbMethods {
+
+    private static final MusicianConcertDbMethods instance = new MusicianConcertDbMethods();
+    private MusicianConcertDbMethods() {}
+
+    public static MusicianConcertDbMethods getInstance() {
+        return instance;
+    }
+
     public void insertMusicianConcert(MusicianConcert musicianConcert) {
         try(Connection conn = Database.getConnection()){
             try(Statement pragmaStmt = conn.createStatement()){

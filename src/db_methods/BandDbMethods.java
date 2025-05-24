@@ -7,6 +7,13 @@ import models.Band;
 import utils.Database;
 
 public class BandDbMethods {
+    private static final BandDbMethods instance = new BandDbMethods();
+    private BandDbMethods() {}
+
+    public static BandDbMethods getInstance() {
+        return instance;
+    }
+
     public void insertBand(Band band) throws SQLException {
         try (Connection conn = Database.getConnection()) {
             try (Statement pragmaStmt = conn.createStatement()) {

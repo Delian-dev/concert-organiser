@@ -58,7 +58,7 @@ public class ConcertDetailsPanel extends JPanel {
                     "Confirm Delete", JOptionPane.YES_NO_OPTION
             );
             if (confirm == JOptionPane.YES_OPTION) {
-                ConcertDbMethods service = new ConcertDbMethods();
+                ConcertDbMethods service = ConcertDbMethods.getInstance();
                 service.deleteConcert(currentConcert.getConcertId());
                 mainFrame.showPanel("concerts");
             }
@@ -86,7 +86,7 @@ public class ConcertDetailsPanel extends JPanel {
         dateLabel.setText("🗓 Date: " + concert.getDate());
 
         // Retrieve and format location
-        LocationDbMethods locationService = new LocationDbMethods();
+        LocationDbMethods locationService = LocationDbMethods.getInstance();
         Location location = locationService.selectLocationById(concert.getLocationId()); // Make sure Concert has getLocation()
         if (location != null) {
             locationLabel.setText("📍 " + location.getCity() + ", " + location.getAddress());
@@ -155,7 +155,7 @@ public class ConcertDetailsPanel extends JPanel {
                             JOptionPane.YES_NO_OPTION
                     );
                     if (confirm == JOptionPane.YES_OPTION) {
-                        new MusicianConcertDbMethods().deleteMusicianConcert(currentConcert.getConcertId(), m.getMusicianId());
+                        MusicianConcertDbMethods.getInstance().deleteMusicianConcert(currentConcert.getConcertId(), m.getMusicianId());
                         services.CSV_Service.logAction("DELETE", "MUSICIAN-CONCERT");
                         setConcert(currentConcert); // Refresh
                     }
@@ -215,7 +215,7 @@ public class ConcertDetailsPanel extends JPanel {
                             JOptionPane.YES_NO_OPTION
                     );
                     if (confirm == JOptionPane.YES_OPTION) {
-                        new SponsorConcertDbMethods().deleteSponsorConcert(currentConcert.getConcertId(), sponsor.getSponsorId());
+                        SponsorConcertDbMethods.getInstance().deleteSponsorConcert(currentConcert.getConcertId(), sponsor.getSponsorId());
                         services.CSV_Service.logAction("DELETE", "SPONSOR-CONCERT");
                         setConcert(currentConcert); // Refresh
                     }

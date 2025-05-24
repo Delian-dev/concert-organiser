@@ -6,6 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LocationDbMethods {
+    private static final LocationDbMethods instance = new LocationDbMethods();
+    private LocationDbMethods() {}
+
+    public static LocationDbMethods getInstance() {
+        return instance;
+    }
 
     public void insertLocation(Location location) {
         try(Connection conn = Database.getConnection()){

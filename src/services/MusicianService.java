@@ -17,9 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MusicianService {
-    private final BandDbMethods bandDb = new BandDbMethods();
-    private final SoloArtistDbMethods soloDb = new SoloArtistDbMethods();
-    private final MusicianDbMethods musicianDb = new MusicianDbMethods();
+    private final BandDbMethods bandDb = BandDbMethods.getInstance();
+    private final SoloArtistDbMethods soloDb = SoloArtistDbMethods.getInstance();
+    private final MusicianDbMethods musicianDb = MusicianDbMethods.getInstance();
 
     public List<Musician> getAllMusicians() {
         List<Band> bands = bandDb.selectAll();

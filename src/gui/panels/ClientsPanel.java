@@ -13,9 +13,9 @@ import java.awt.*;
 import java.util.List;
 
 public class ClientsPanel extends JPanel {
-    private final ClientDbMethods clientService = new ClientDbMethods();
-    private final TicketDbMethods ticketService = new TicketDbMethods();
-    private final ConcertDbMethods concertService = new ConcertDbMethods();
+    private final ClientDbMethods clientService = ClientDbMethods.getInstance();
+    private final TicketDbMethods ticketService = TicketDbMethods.getInstance();
+    private final ConcertDbMethods concertService = ConcertDbMethods.getInstance();
     private final JPanel clientsListPanel = new JPanel();
     private final MainFrame mainFrame;
 

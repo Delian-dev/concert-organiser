@@ -13,8 +13,8 @@ import db_methods.LocationDbMethods;
 
 
 public class CountriesPanel extends JPanel {
-    private final CountryDbMethods countryService = new CountryDbMethods();
-    private final LocationDbMethods locationService = new LocationDbMethods();
+    private final CountryDbMethods countryService = CountryDbMethods.getInstance();
+    private final LocationDbMethods locationService = LocationDbMethods.getInstance();
 
     public CountriesPanel(MainFrame mainFrame) {
         setLayout(new BorderLayout());

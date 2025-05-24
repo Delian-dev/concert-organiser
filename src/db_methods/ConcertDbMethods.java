@@ -9,6 +9,14 @@ import utils.Database;
 import validations.Validator;
 
 public class ConcertDbMethods {
+
+    private static final ConcertDbMethods instance = new ConcertDbMethods();
+    private ConcertDbMethods() {}
+
+    public static ConcertDbMethods getInstance() {
+        return instance;
+    }
+
     public void insertConcert(Concert concert) throws SQLException {
         try(Connection conn = Database.getConnection()){
             try(Statement pragmaStmt = conn.createStatement()){

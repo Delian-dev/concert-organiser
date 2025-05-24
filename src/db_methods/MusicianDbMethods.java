@@ -10,6 +10,13 @@ import models.Band;
 import utils.Database;
 
 public class MusicianDbMethods {
+    private static final MusicianDbMethods instance = new MusicianDbMethods();
+    private MusicianDbMethods() {}
+
+    public static MusicianDbMethods getInstance() {
+        return instance;
+    }
+
     public List<Musician> getMusiciansByConcert(int concertId) {
         List<Musician> musicians = new ArrayList<>();
         try(Connection conn = Database.getConnection()){

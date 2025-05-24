@@ -9,6 +9,13 @@ import models.TicketType;
 import utils.Database;
 
 public class TicketDbMethods {
+    private static final TicketDbMethods instance = new TicketDbMethods();
+    private TicketDbMethods() {}
+
+    public static TicketDbMethods getInstance() {
+        return instance;
+    }
+
     public void insertTicket(Ticket ticket) {
         try(Connection conn = Database.getConnection()){
             try(Statement pragmaStmt = conn.createStatement()){

@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public class SponsorService {
-    private final SponsorDbMethods sponsorDbMethods = new SponsorDbMethods();
+    private final SponsorDbMethods sponsorDbMethods = SponsorDbMethods.getInstance();
 
     public List<Sponsor> getAllSponsors() {
         return sponsorDbMethods.selectAll();

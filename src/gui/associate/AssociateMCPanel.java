@@ -111,7 +111,7 @@ public class AssociateMCPanel extends JPanel {
 //            System.out.println(selected.getMusicianId() + " " + selected.getName());
 //            System.out.println(fee);
 //            System.out.println(duration);
-            MusicianConcertDbMethods db = new MusicianConcertDbMethods();
+            MusicianConcertDbMethods db = MusicianConcertDbMethods.getInstance();
             db.insertMusicianConcert(mc);
             JOptionPane.showMessageDialog(this, "Musician successfully associated!");
             services.CSV_Service.logAction("ASSOCIATE", "MUSICIAN-CONCERT");

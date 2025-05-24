@@ -24,9 +24,9 @@ public class AddConcertPanel extends JPanel {
     private final JLabel messageLabel;
     private final JButton submitButton;
 
-    private final ConcertDbMethods concertService = new ConcertDbMethods();
-    private final CountryDbMethods countryService = new CountryDbMethods();
-    private final LocationDbMethods locationService = new LocationDbMethods();
+    private final ConcertDbMethods concertService = ConcertDbMethods.getInstance();
+    private final CountryDbMethods countryService = CountryDbMethods.getInstance();
+    private final LocationDbMethods locationService = LocationDbMethods.getInstance();
 
     private Concert concertToUpdate = null;
 

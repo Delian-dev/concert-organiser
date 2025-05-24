@@ -15,10 +15,10 @@ import java.util.Comparator;
 import java.util.stream.Collectors;
 
 public class ConcertService {
-    ConcertDbMethods concertDb = new ConcertDbMethods();
-    MusicianDbMethods musicianDb = new MusicianDbMethods();
-    SponsorDbMethods sponsorDb = new SponsorDbMethods();
-    TicketDbMethods ticketDb = new TicketDbMethods();
+    ConcertDbMethods concertDb = ConcertDbMethods.getInstance();
+    MusicianDbMethods musicianDb = MusicianDbMethods.getInstance();
+    SponsorDbMethods sponsorDb = SponsorDbMethods.getInstance();
+    TicketDbMethods ticketDb = TicketDbMethods.getInstance();
 
     public List<Concert> listConcerts(){
         return concertDb.selectAll();

@@ -14,7 +14,7 @@ public class UpdateClient extends JPanel {
     private final JTextField nameField = new JTextField(20);
     private final JTextField emailField = new JTextField(20);
     private final JTextField phoneField = new JTextField(20);
-    private final ClientDbMethods clientDbMethods = new ClientDbMethods();
+    private final ClientDbMethods clientDbMethods = ClientDbMethods.getInstance();
     private final EmailValidator emailValidator = new EmailValidator();
     private final PhoneValidator phoneValidator = new PhoneValidator();
 

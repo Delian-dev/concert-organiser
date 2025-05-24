@@ -50,8 +50,8 @@ public class MusiciansPanel extends JPanel {
     }
 
     public void loadMusiciansIntoList() {
-        SoloArtistDbMethods soloService = new SoloArtistDbMethods();
-        BandDbMethods bandService = new BandDbMethods();
+        SoloArtistDbMethods soloService = SoloArtistDbMethods.getInstance();
+        BandDbMethods bandService = BandDbMethods.getInstance();
 
         List<SoloArtist> soloArtists = soloService.selectAll();
         List<Band> bands = bandService.selectAll();

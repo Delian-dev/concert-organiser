@@ -18,8 +18,8 @@ public class AddTicketPanel extends JPanel {
     private final JTextField priceField = new JTextField(8);  // consistent size with AddConcertPanel
     private final JButton saveButton = new JButton("Save Ticket");
 
-    private final ConcertDbMethods concertDb = new ConcertDbMethods();
-    private final TicketDbMethods ticketDb = new TicketDbMethods();
+    private final ConcertDbMethods concertDb = ConcertDbMethods.getInstance();
+    private final TicketDbMethods ticketDb = TicketDbMethods.getInstance();
 
     private Client client;
 

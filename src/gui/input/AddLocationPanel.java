@@ -12,8 +12,8 @@ import db_methods.LocationDbMethods;
 import db_methods.CountryDbMethods;
 
 public class AddLocationPanel extends JPanel {
-    private final CountryDbMethods countryService = new CountryDbMethods();
-    private final LocationDbMethods locationService = new LocationDbMethods();
+    private final CountryDbMethods countryService = CountryDbMethods.getInstance();
+    private final LocationDbMethods locationService = LocationDbMethods.getInstance();
 
     public AddLocationPanel(MainFrame mainFrame) {
         setLayout(new GridBagLayout());

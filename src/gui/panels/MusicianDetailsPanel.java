@@ -25,8 +25,8 @@ public class MusicianDetailsPanel extends JPanel {
     private final JButton updateButton;
     private final JButton deleteButton;
 
-    private final SoloArtistDbMethods soloArtistService = new SoloArtistDbMethods();
-    private final BandDbMethods bandService = new BandDbMethods();
+    private final SoloArtistDbMethods soloArtistService = SoloArtistDbMethods.getInstance();
+    private final BandDbMethods bandService = BandDbMethods.getInstance();
     private final MusicianService musicianService = new MusicianService();
 
     private final List<JLabel> infoLabels = new ArrayList<>();

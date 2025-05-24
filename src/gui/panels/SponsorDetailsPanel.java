@@ -21,7 +21,7 @@ public class SponsorDetailsPanel extends JPanel {
     private final JButton updateButton;
     private final JButton deleteButton;
 
-    private final SponsorDbMethods sponsorDbMethods = new SponsorDbMethods();
+    private final SponsorDbMethods sponsorDbMethods = SponsorDbMethods.getInstance();
     private final SponsorService sponsorService = new SponsorService();
 
     public SponsorDetailsPanel(MainFrame mainFrame) {
