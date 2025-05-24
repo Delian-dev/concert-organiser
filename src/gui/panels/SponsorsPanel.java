@@ -4,28 +4,48 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import gui.MainFrame;
 import models.Sponsor;
 import db_methods.SponsorDbMethods;
-
+import services.SponsorService;
 import gui.components.*;
 
 public class SponsorsPanel extends JPanel {
     private final JPanel sponsorsListPanel;
     private final MainFrame mainFrame;
+    private boolean sortAscending = true;
+    private final SponsorService sponsorService = new SponsorService();
 
     public SponsorsPanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         setLayout(new BorderLayout());
 
-        // Header
-        JLabel header = new JLabel("💼 Sponsors", SwingConstants.CENTER);
-        header.setFont(new Font("Arial", Font.BOLD, 24));
-        add(header, BorderLayout.NORTH);
+        // Top panel with header and sort dropdown
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        topPanel.setBackground(Color.WHITE);
 
-        // List panel
+        JLabel header = new JLabel("💼 Sponsors");
+        header.setFont(new Font("SEGOE UI EMOJI", Font.BOLD, 24));
+        topPanel.add(header, BorderLayout.WEST);
+
+        String[] sortOptions = {"Sort by Concert Count ↑", "Sort by Concert Count ↓"};
+        JComboBox<String> sortDropdown = new JComboBox<>(sortOptions);
+        sortDropdown.setMaximumSize(new Dimension(180, 30));
+
+        sortDropdown.addActionListener(e -> {
+            sortAscending = sortDropdown.getSelectedIndex() == 0;
+            loadSponsorsIntoList();
+        });
+
+        topPanel.add(sortDropdown, BorderLayout.EAST);
+        add(topPanel, BorderLayout.NORTH);
+
+        // Sponsors list
         sponsorsListPanel = new JPanel();
         sponsorsListPanel.setLayout(new BoxLayout(sponsorsListPanel, BoxLayout.Y_AXIS));
         sponsorsListPanel.setBackground(Color.WHITE);
@@ -35,7 +55,7 @@ public class SponsorsPanel extends JPanel {
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         add(scrollPane, BorderLayout.CENTER);
 
-        // Buttons panel
+        // Bottom button panel
         JPanel buttonsPanel = new JPanel();
         JButton loadSponsorsBtn = new JButton("Load Sponsors");
         JButton addSponsorBtn = new JButton("Add Sponsor");
@@ -50,23 +70,40 @@ public class SponsorsPanel extends JPanel {
     }
 
     public void loadSponsorsIntoList() {
-        SponsorDbMethods sponsorService = SponsorDbMethods.getInstance();
-        List<Sponsor> sponsors = sponsorService.selectAll();
+        List<Sponsor> sponsors = sponsorService.getSponsorsSortedByConcertCount();
+        if (sortAscending) {
+            Collections.reverse(sponsors);
+        }
 
         sponsorsListPanel.removeAll();
 
         for (Sponsor s : sponsors) {
+            int concertCount = sponsorService.getConcertCountBySponsorId(s.getSponsorId());
+
             JPanel sponsorPanel = new RoundedPanel();
             sponsorPanel.setLayout(new BorderLayout());
-            sponsorPanel.setMaximumSize(new Dimension(500, 60));
+            sponsorPanel.setMaximumSize(new Dimension(500, 80));
             sponsorPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
             sponsorPanel.setBackground(Color.LIGHT_GRAY);
 
-            JLabel nameLabel = new JLabel(s.getSponsorName(), SwingConstants.CENTER);
-            nameLabel.setFont(new Font("Arial", Font.BOLD, 18));
-            sponsorPanel.add(nameLabel, BorderLayout.CENTER);
+            // Name label (title)
+            JLabel nameLabel = new JLabel("💼 " + s.getSponsorName(), SwingConstants.LEFT);
+            nameLabel.setFont(new Font("SEGOE UI EMOJI", Font.BOLD, 18));
 
-            // Hover effect
+            // Concert info label (subtext)
+            JLabel concertInfoLabel = new JLabel("No. of concerts sponsored: " + concertCount, SwingConstants.LEFT);
+            concertInfoLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+            concertInfoLabel.setForeground(Color.DARK_GRAY);
+
+            // Vertical box to hold both labels
+            JPanel textPanel = new JPanel();
+            textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
+            textPanel.setOpaque(false);
+            textPanel.add(nameLabel);
+            textPanel.add(concertInfoLabel);
+
+            sponsorPanel.add(textPanel, BorderLayout.CENTER);
+
             sponsorPanel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
@@ -95,5 +132,12 @@ public class SponsorsPanel extends JPanel {
 
         sponsorsListPanel.revalidate();
         sponsorsListPanel.repaint();
+    }
+
+
+    @Override
+    public void addNotify() {
+        super.addNotify();
+        loadSponsorsIntoList();
     }
 }

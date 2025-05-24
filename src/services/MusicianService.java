@@ -7,14 +7,11 @@ import models.Musician;
 import models.SoloArtist;
 import models.Band;
 import models.Concert;
-import utils.Database;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class MusicianService {
     private final BandDbMethods bandDb = BandDbMethods.getInstance();
@@ -33,5 +30,31 @@ public class MusicianService {
 
     public List<Concert> getConcertsByMusicianId(int musicianId) {
         return musicianDb.selectConcertsByMusicianId(musicianId);
+    }
+
+    public List<Musician> listMusiciansByGenre(String genre) {
+
+        // filter solo artists
+        List<SoloArtist> soloArtists = soloDb.selectAll()
+                .stream()
+                .filter(s -> genre.equalsIgnoreCase(s.getGenre()))
+                .toList();
+        List<Musician> filtered = new ArrayList<>(soloArtists);
+
+        // filter bands by the same genre
+        List<Band> bands = bandDb.selectAll()
+                .stream()
+                .filter(b -> genre.equalsIgnoreCase(b.getGenre()))
+                .toList();
+        filtered.addAll(bands);
+
+        return filtered;
+    }
+
+    public Set<String> getUniqueGenres() {
+        return musicianDb.selectAll()
+                .stream()
+                .map(Musician::getGenre)
+                .collect(Collectors.toSet());
     }
 }

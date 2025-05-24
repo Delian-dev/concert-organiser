@@ -23,9 +23,15 @@ public class ClientsPanel extends JPanel {
         this.mainFrame = mainFrame;
         setLayout(new BorderLayout());
 
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0)); // 10px top padding
+        //headerPanel.setBackground(Color.WHITE); // optional: ensure consistent background
+
         JLabel header = new JLabel("👥 Clients & Tickets", SwingConstants.CENTER);
-        header.setFont(new Font("Arial", Font.BOLD, 24));
-        add(header, BorderLayout.NORTH);
+        header.setFont(new Font("SEGOE UI EMOJI", Font.BOLD, 24));
+        headerPanel.add(header, BorderLayout.CENTER);
+
+        add(headerPanel, BorderLayout.NORTH);
 
         clientsListPanel.setLayout(new BoxLayout(clientsListPanel, BoxLayout.Y_AXIS));
         JScrollPane scrollPane = new JScrollPane(clientsListPanel);

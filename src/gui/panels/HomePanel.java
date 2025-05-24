@@ -19,7 +19,11 @@ public class HomePanel extends JPanel {
                 Welcome to the Concert Management App!
                 
                 From here you can:
-                - View and manage concerts
+                - View and manage Concerts
+                - View and manage Musicians
+                - View and manage Sponsors
+                - Associate Musicians and Sponsors to Concerts
+                - View Ticket Holders and Tickets data
                 - Add new concerts or locations
                 - Explore countries and their event venues
                 

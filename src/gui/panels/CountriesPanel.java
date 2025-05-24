@@ -20,7 +20,8 @@ public class CountriesPanel extends JPanel {
         setLayout(new BorderLayout());
 
         JLabel header = new JLabel("🌍 Countries & Locations", SwingConstants.CENTER);
-        header.setFont(new Font("Arial", Font.BOLD, 24));
+        header.setFont(new Font("SEGOE UI EMOJI", Font.BOLD, 24));
+        header.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         add(header, BorderLayout.NORTH);
 
         JPanel listPanel = new JPanel();
@@ -42,10 +43,11 @@ public class CountriesPanel extends JPanel {
 
             JPanel headerPanel = new JPanel(new BorderLayout());
             headerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
-            JButton expandButton = new JButton("▼");
-            expandButton.setPreferredSize(null);
-            //expandButton.setMinimumSize(new Dimension(40, 30));
-            expandButton.setFont(new Font("Arial", Font.PLAIN, 12));
+            JButton expandButton = new JButton("▶"); // Start collapsed
+            expandButton.setFont(new Font("Dialog", Font.BOLD, 14));
+            expandButton.setFocusPainted(false);
+            expandButton.setMargin(new Insets(2, 8, 2, 8));
+            expandButton.setFocusable(false);;
 
             JLabel countryLabel = new JLabel(country.getCountry_name(), SwingConstants.CENTER);
             countryLabel.setFont(new Font("Arial", Font.BOLD, 16));
@@ -61,12 +63,13 @@ public class CountriesPanel extends JPanel {
             countryPanel.add(locationsPanel);
 
             expandButton.addActionListener(e -> {
-                if (locationsPanel.isVisible()) {
-                    locationsPanel.setVisible(false);
-                    expandButton.setText("▶");
-                } else {
-                    List<Location> locations = locationService.selectLocationByCountry(country.getCountryId());
+                boolean isVisible = locationsPanel.isVisible();
+                locationsPanel.setVisible(!isVisible);
+                expandButton.setText(isVisible ? "▶" : "▼");
+
+                if (!isVisible) {
                     locationsPanel.removeAll();
+                    List<Location> locations = locationService.selectLocationByCountry(country.getCountryId());
                     if (locations.isEmpty()) {
                         locationsPanel.add(new JLabel("No locations found."));
                     } else {
@@ -96,8 +99,8 @@ public class CountriesPanel extends JPanel {
                                 );
                                 if (confirm == JOptionPane.YES_OPTION) {
                                     locationService.deleteLocation(loc.getLocationId());
-                                    locationsPanel.remove(locationRow);
                                     services.CSV_Service.logAction("DELETE", "LOCATION");
+                                    locationsPanel.remove(locationRow);
                                     locationsPanel.revalidate();
                                     locationsPanel.repaint();
                                 }
@@ -108,15 +111,13 @@ public class CountriesPanel extends JPanel {
                             locationRow.add(deleteBtn);
                             locationsPanel.add(locationRow);
                         }
-
                     }
-                    locationsPanel.setVisible(true);
-                    countryPanel.revalidate();
-                    countryPanel.repaint();
-                    expandButton.setText("▼");
-                    locationsPanel.revalidate();
                 }
+
+                countryPanel.revalidate();
+                countryPanel.repaint();
             });
+
 
             listPanel.add(countryPanel);
             listPanel.add(Box.createVerticalStrut(20));

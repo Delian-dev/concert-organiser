@@ -30,7 +30,8 @@ public class ConcertsPanel extends JPanel {
         topPanel.setBackground(Color.WHITE);
 
         JLabel header = new JLabel("🎤 Concerts");
-        header.setFont(new Font("Arial", Font.BOLD, 24));
+        header.setFont(new Font("SEGOE UI EMOJI", Font.BOLD, 24));
+        header.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         topPanel.add(header, BorderLayout.WEST);
 
         String[] sortOptions = {"Sort by Date ↑", "Sort by Date ↓"};

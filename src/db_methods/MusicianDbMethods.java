@@ -17,6 +17,28 @@ public class MusicianDbMethods {
         return instance;
     }
 
+    public List<Musician> selectAll() {
+        List<Musician> musicians = new ArrayList<>();
+        try(Connection conn = Database.getConnection()){
+            final String selectAll = """
+                    SELECT * from musician m;
+                """;
+
+            try(PreparedStatement stmt = conn.prepareStatement(selectAll)){
+                ResultSet rs = stmt.executeQuery();
+                while(rs.next()){
+                    int musicianId = rs.getInt("id_musician");
+                    String musicianName = rs.getString("name");
+                    String genre = rs.getString("genre");
+                    musicians.add(new Musician(musicianId, musicianName, genre));
+                }
+            }
+        } catch (SQLException ex){
+            System.out.println("Error: " + ex.getMessage());
+        }
+        return musicians;
+    }
+
     public List<Musician> getMusiciansByConcert(int concertId) {
         List<Musician> musicians = new ArrayList<>();
         try(Connection conn = Database.getConnection()){
