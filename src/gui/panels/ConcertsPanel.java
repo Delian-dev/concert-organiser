@@ -24,7 +24,7 @@ public class ConcertsPanel extends JPanel {
         this.mainFrame = mainFrame;
         setLayout(new BorderLayout());
 
-        // Top panel with header and sort dropdown
+        // header and sort dropdown
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         topPanel.setBackground(Color.WHITE);
@@ -57,7 +57,6 @@ public class ConcertsPanel extends JPanel {
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         add(scrollPane, BorderLayout.CENTER);
 
-        // Bottom button panel
         JPanel buttonsPanel = new JPanel();
         JButton loadConcerts = new JButton("Load Concerts");
         JButton addConcertBtn = new JButton("Add Concert");

@@ -26,41 +26,41 @@ public class AddClientPanel extends JPanel {
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.WEST;
 
-        // Name
+        // name input field
         gbc.gridx = 0; gbc.gridy = 0;
         add(new JLabel("Name:"), gbc);
         gbc.gridx = 1;
         nameField = new JTextField(20);
         add(nameField, gbc);
 
-        // Age
+        // age input field
         gbc.gridx = 0; gbc.gridy = 1;
         add(new JLabel("Age:"), gbc);
         gbc.gridx = 1;
         ageField = new JTextField(20);
         add(ageField, gbc);
 
-        // Email
+        // email input field
         gbc.gridx = 0; gbc.gridy = 2;
         add(new JLabel("Email:"), gbc);
         gbc.gridx = 1;
         emailField = new JTextField(20);
         add(emailField, gbc);
 
-        // Phone
+        // phone input field
         gbc.gridx = 0; gbc.gridy = 3;
         add(new JLabel("Phone Number:"), gbc);
         gbc.gridx = 1;
         phoneField = new JTextField(20);
         add(phoneField, gbc);
 
-        // Message label for validation errors
+        // message (in case of errors)
         gbc.gridx = 1; gbc.gridy = 4;
         messageLabel = new JLabel("");
         messageLabel.setForeground(Color.RED);
         add(messageLabel, gbc);
 
-        // Submit button
+        // submit button
         gbc.gridx = 1; gbc.gridy = 5;
         JButton submitButton = new JButton("Add Client");
         add(submitButton, gbc);

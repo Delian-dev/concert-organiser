@@ -24,7 +24,7 @@ public class SponsorsPanel extends JPanel {
         this.mainFrame = mainFrame;
         setLayout(new BorderLayout());
 
-        // Top panel with header and sort dropdown
+        // header with sort dropdown
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         topPanel.setBackground(Color.WHITE);
@@ -55,7 +55,6 @@ public class SponsorsPanel extends JPanel {
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         add(scrollPane, BorderLayout.CENTER);
 
-        // Bottom button panel
         JPanel buttonsPanel = new JPanel();
         JButton loadSponsorsBtn = new JButton("Load Sponsors");
         JButton addSponsorBtn = new JButton("Add Sponsor");
@@ -86,16 +85,16 @@ public class SponsorsPanel extends JPanel {
             sponsorPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
             sponsorPanel.setBackground(Color.LIGHT_GRAY);
 
-            // Name label (title)
+
             JLabel nameLabel = new JLabel("💼 " + s.getSponsorName(), SwingConstants.LEFT);
             nameLabel.setFont(new Font("SEGOE UI EMOJI", Font.BOLD, 18));
 
-            // Concert info label (subtext)
+            // concert info label
             JLabel concertInfoLabel = new JLabel("No. of concerts sponsored: " + concertCount, SwingConstants.LEFT);
             concertInfoLabel.setFont(new Font("Arial", Font.PLAIN, 14));
             concertInfoLabel.setForeground(Color.DARK_GRAY);
 
-            // Vertical box to hold both labels
+
             JPanel textPanel = new JPanel();
             textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
             textPanel.setOpaque(false);

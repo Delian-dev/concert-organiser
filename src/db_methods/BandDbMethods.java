@@ -27,7 +27,7 @@ public class BandDbMethods {
 
             int generatedMusicianId = -1;
 
-            // Insert into musician
+            // inserting into musician table first
             try (PreparedStatement stmt = conn.prepareStatement(insertMusician, Statement.RETURN_GENERATED_KEYS)) {
                 stmt.setString(1, band.getName());
                 stmt.setString(2, band.getGenre());
@@ -43,7 +43,7 @@ public class BandDbMethods {
                 }
             }
 
-            // Insert into band
+            // inserting into band then
             try (PreparedStatement stmt = conn.prepareStatement(insertBand)) {
                 stmt.setInt(1, generatedMusicianId);
                 stmt.setString(2, band.getDateFormed());

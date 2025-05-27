@@ -4,12 +4,7 @@ public class SponsorConcert {
     private final int concertId;
     private final int sponsorId;
     private SponsorType sponsorType; //si aici Enum
-    
-    public SponsorConcert(int concertId, int sponsorId) {
-        this.concertId = concertId;
-        this.sponsorId = sponsorId;
-    }
-    
+
     public SponsorConcert(int concertId, int sponsorId, SponsorType sponsorType) {
         this.concertId = concertId;
         this.sponsorId = sponsorId;

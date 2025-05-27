@@ -21,26 +21,25 @@ public class AddSponsorPanel extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
 
-        // Sponsor Name
+        // sponsor name input
         gbc.gridx = 0; gbc.gridy = 0;
         add(new JLabel("Sponsor Name:"), gbc);
         gbc.gridx = 1;
         sponsorNameField = new JTextField(20);
         add(sponsorNameField, gbc);
 
-        // Market Value
+        // market value input
         gbc.gridx = 0; gbc.gridy = 1;
         add(new JLabel("Market Value:"), gbc);
         gbc.gridx = 1;
         sponsorMarketValueField = new JTextField(20);
         add(sponsorMarketValueField, gbc);
 
-        // Submit Button
+        // submit btn
         gbc.gridx = 1; gbc.gridy = 2;
         submitButton = new JButton("Add Sponsor");
         add(submitButton, gbc);
 
-        // Submit logic
         submitButton.addActionListener(e -> handleSubmit());
     }
 
@@ -66,7 +65,7 @@ public class AddSponsorPanel extends JPanel {
                 sponsorService.insertSponsor(newSponsor);
                 JOptionPane.showMessageDialog(this, "Sponsor added!");
                 services.CSV_Service.logAction("INSERT", "SPONSOR");
-            } else {
+            } else { //called for update, not insert
                 editingSponsor.setSponsorName(name);
                 editingSponsor.setMarketValue(marketValue);
                 sponsorService.updateSponsor(editingSponsor);

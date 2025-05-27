@@ -46,7 +46,7 @@ public class AssociateSCPanel extends JPanel {
         buttonPanel.add(associateBtn);
         buttonPanel.add(backBtn);
 
-        // Center formPanel both horizontally and vertically
+        // center formPanel both horizontally and vertically
         JPanel centerWrapper = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;

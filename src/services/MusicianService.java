@@ -34,7 +34,7 @@ public class MusicianService {
 
     public List<Musician> listMusiciansByGenre(String genre) {
 
-        // filter solo artists
+        // filter solo artists by provided genre
         List<SoloArtist> soloArtists = soloDb.selectAll()
                 .stream()
                 .filter(s -> genre.equalsIgnoreCase(s.getGenre()))

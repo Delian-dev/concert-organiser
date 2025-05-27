@@ -130,7 +130,7 @@ public class CountriesPanel extends JPanel {
         addLocationBtn.setPreferredSize(fixedSize);
         addLocationBtn.setMaximumSize(fixedSize);
         addLocationBtn.setMinimumSize(fixedSize);
-        addLocationBtn.addActionListener(e -> mainFrame.showPanel("locationForm")); // Switch to a form panel
+        addLocationBtn.addActionListener(e -> mainFrame.showPanel("locationForm")); //switches to add location panel
 
         JPanel locationButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         locationButtonPanel.add(addLocationBtn);

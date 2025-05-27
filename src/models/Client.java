@@ -7,13 +7,6 @@ public class Client {
     private String email;
     private String phone;
 
-    public Client(int clientId, String username, int age, String email){
-        this.clientId = clientId;
-        this.username = username;
-        this.age = age;
-        this.email = email;
-    }
-
     public Client(String username , int age, String email, String phone){
         this.username = username;
         this.age = age;

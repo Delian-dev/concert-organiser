@@ -29,25 +29,25 @@ public class AddTicketPanel extends JPanel {
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.WEST;
 
-        // Concert Dropdown
+        // concert dropdown
         gbc.gridx = 0; gbc.gridy = 0;
         add(new JLabel("Select Concert:"), gbc);
         gbc.gridx = 1;
         add(concertDropdown, gbc);
 
-        // Ticket Type Dropdown
+        // TicketType dropdown
         gbc.gridx = 0; gbc.gridy = 1;
         add(new JLabel("Select Ticket Type:"), gbc);
         gbc.gridx = 1;
         add(typeDropdown, gbc);
 
-        // Price Field
+        // price input
         gbc.gridx = 0; gbc.gridy = 2;
         add(new JLabel("Enter Price:"), gbc);
         gbc.gridx = 1;
         add(priceField, gbc);
 
-        // Save Button
+        // save button
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 2;

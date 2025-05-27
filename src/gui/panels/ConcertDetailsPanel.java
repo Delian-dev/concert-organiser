@@ -40,7 +40,7 @@ public class ConcertDetailsPanel extends JPanel {
         topPanel.add(dateLabel);
         topPanel.add(locationLabel);
 
-        // Buttons
+
         JButton backButton = new JButton("⬅ Back");
         backButton.addActionListener(e -> mainFrame.showPanel("concerts"));
 
@@ -85,9 +85,8 @@ public class ConcertDetailsPanel extends JPanel {
         nameLabel.setText("🎵 " + concert.getConcertName());
         dateLabel.setText("🗓 Date: " + concert.getDate());
 
-        // Retrieve and format location
         LocationDbMethods locationService = LocationDbMethods.getInstance();
-        Location location = locationService.selectLocationById(concert.getLocationId()); // Make sure Concert has getLocation()
+        Location location = locationService.selectLocationById(concert.getLocationId());
         if (location != null) {
             locationLabel.setText("📍 " + location.getCity() + ", " + location.getAddress());
         } else {
@@ -96,7 +95,7 @@ public class ConcertDetailsPanel extends JPanel {
 
         detailsContainer.removeAll();
 
-        // Add spacing between sections
+        // sections with spacing between them
         detailsContainer.add(Box.createVerticalStrut(20));
         detailsContainer.add(createSectionPanel("🎸 Performing Musicians", createMusiciansPanel()));
         detailsContainer.add(Box.createVerticalStrut(20));

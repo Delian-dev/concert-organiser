@@ -59,7 +59,7 @@ public class MusicianDetailsPanel extends JPanel {
 
         updateButton.addActionListener(e -> {
             if (currentMusician != null && onUpdateRequested != null) {
-                onUpdateRequested.run();
+                onUpdateRequested.run(); //called in mainframe
             }
         });
 

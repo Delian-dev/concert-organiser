@@ -30,14 +30,13 @@ public class AddMusicianPanel extends JPanel {
 
         setLayout(new BorderLayout());
 
-        // Outer wrapper for centering
+        // wrapper for centering
         JPanel outerPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.CENTER;
 
-        // Inner form panel with labels and text fields
         JPanel formPanel = new JPanel(new GridLayout(0, 2, 10, 10));
         formPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
@@ -61,7 +60,6 @@ public class AddMusicianPanel extends JPanel {
         outerPanel.add(formPanel, gbc);
         add(outerPanel, BorderLayout.CENTER);
 
-        // Buttons at bottom
         JPanel buttonsPanel = new JPanel();
         submitButton = new JButton("Add Musician");
         backButton = new JButton("Back");
@@ -96,7 +94,7 @@ public class AddMusicianPanel extends JPanel {
         submitButton.setText("Update Band");
     }
 
-    private class SubmitListener implements ActionListener {
+    private class SubmitListener implements ActionListener { //I dont remeber why the lambda function call didnt work and I used a class instead
         @Override
         public void actionPerformed(ActionEvent e) {
             String name = nameTextField.getText().trim();
@@ -136,7 +134,7 @@ public class AddMusicianPanel extends JPanel {
                             "Band updated successfully!");
                     services.CSV_Service.logAction("UPDATE", "MUSICIAN(BAND)");
                 } else {
-                    // Add new: check if extraInfo filled to distinguish solo or band
+                    // extraInfo used to distinguish between solo or band
                     if (!extraInfo.isEmpty()) {
                         // Add new solo artist
                         SoloArtist newSolo = new SoloArtist(0, name, genre, date, extraInfo);

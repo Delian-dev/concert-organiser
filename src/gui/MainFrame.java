@@ -64,22 +64,30 @@ public class MainFrame extends JFrame {
         contentPanel = new JPanel(cardLayout);
 
         contentPanel.add(new HomePanel(), "home");
+
         concertsPanel = new ConcertsPanel(this);
         contentPanel.add(concertsPanel, "concerts");
+
         concertDetailsPanel = new ConcertDetailsPanel(this);
         contentPanel.add(concertDetailsPanel, "concertDetailsForm");
+
         addConcertPanel = new AddConcertPanel();
         contentPanel.add(addConcertPanel, "addConcert");
+
         musiciansPanel = new MusiciansPanel(this);
         contentPanel.add(musiciansPanel, "musicians");
+
         addMusicianPanel = new AddMusicianPanel(this);
         contentPanel.add(addMusicianPanel, "addMusician");
+
         musicianDetailsPanel = new MusicianDetailsPanel(this);
         contentPanel.add(musicianDetailsPanel, "musicianDetailsForm");
+
         contentPanel.add(new ClientsPanel(this), "clients");
         contentPanel.add(new CountriesPanel(this), "countries");
         contentPanel.add(new AddClientPanel(), "addClient");
         contentPanel.add(new AddLocationPanel(this), "locationForm");
+
         sponsorsPanel = new SponsorsPanel(this);
         addSponsorPanel = new AddSponsorPanel();
         addSponsorPanel.setMainFrame(this);
@@ -105,7 +113,7 @@ public class MainFrame extends JFrame {
 
         cardLayout.show(contentPanel, "home");
 
-        // Button listeners
+        // button listeners
         homeButton.addActionListener(e -> cardLayout.show(contentPanel, "home"));
         musicianBtn.addActionListener(e -> cardLayout.show(contentPanel, "musicians"));
         sponsorsBtn.addActionListener(e -> cardLayout.show(contentPanel, "sponsors"));
@@ -171,8 +179,6 @@ public class MainFrame extends JFrame {
 
 
     public SponsorsPanel getSponsorsPanel() { return sponsorsPanel; }
-    public AddSponsorPanel getAddSponsorPanel() { return addSponsorPanel; }
-    public SponsorDetailsPanel getSponsorDetailsPanel() { return sponsorDetailsPanel; }
 
     public AddTicketPanel getAddTicketPanel() {
         return addTicketPanel;

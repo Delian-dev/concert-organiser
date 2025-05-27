@@ -36,53 +36,52 @@ public class AddConcertPanel extends JPanel {
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.WEST;
 
-        // Country dropdown
+        // country dropdown
         gbc.gridx = 0; gbc.gridy = 0;
         add(new JLabel("Country:"), gbc);
         gbc.gridx = 1;
         countryDropdown = new JComboBox<>();
         add(countryDropdown, gbc);
 
-        // Location dropdown
+        // location dropdown
         gbc.gridx = 0; gbc.gridy = 1;
         add(new JLabel("Location:"), gbc);
         gbc.gridx = 1;
         locationDropdown = new JComboBox<>();
         add(locationDropdown, gbc);
 
-        // Message for no locations
+        // error message
         gbc.gridx = 1; gbc.gridy = 2;
         messageLabel = new JLabel("");
         messageLabel.setForeground(Color.RED);
         add(messageLabel, gbc);
 
-        // Concert Name
+        // concert name
         gbc.gridx = 0; gbc.gridy = 3;
         add(new JLabel("Concert Name:"), gbc);
         gbc.gridx = 1;
         concertNameField = new JTextField(20);
         add(concertNameField, gbc);
 
-        // Concert Date
+        // concert date
         gbc.gridx = 0; gbc.gridy = 4;
         add(new JLabel("Date (YYYY-MM-DD):"), gbc);
         gbc.gridx = 1;
         concertDateField = new JTextField(20);
         add(concertDateField, gbc);
 
-        // Capacity
+        // capacity
         gbc.gridx = 0; gbc.gridy = 5;
         add(new JLabel("Capacity:"), gbc);
         gbc.gridx = 1;
         concertCapacityField = new JTextField(20);
         add(concertCapacityField, gbc);
 
-        // Submit button
+        // submit button
         gbc.gridx = 1; gbc.gridy = 6;
         submitButton = new JButton("Add Concert");
         add(submitButton, gbc);
 
-        // Submit handler
         submitButton.addActionListener(e -> handleSubmit());
 
         loadCountries();
@@ -133,7 +132,7 @@ public class AddConcertPanel extends JPanel {
             }
 
             if (concertToUpdate == null) {
-                // Insert new concert
+                // Insert
                 Concert concert = new Concert(selectedLocation.getLocationId(), name, date, capacity);
                 concertService.insertConcert(concert);
                 JOptionPane.showMessageDialog(this, "Concert added successfully!");
@@ -153,7 +152,7 @@ public class AddConcertPanel extends JPanel {
                 submitButton.setText("Add Concert");
             }
 
-            // Clear form
+            // clear form
             concertNameField.setText("");
             concertDateField.setText("");
             concertCapacityField.setText("");
@@ -177,16 +176,5 @@ public class AddConcertPanel extends JPanel {
         concertCapacityField.setText(String.valueOf(concert.getCapacity()));
         submitButton.setText("Update Concert");
 
-//        // Tell user to manually select country
-//        messageLabel.setText("Please select the concert's country to load the location.");
-//
-//        // Try to pre-select location (if available)
-//        for (int i = 0; i < locationDropdown.getItemCount(); i++) {
-//            Location loc = locationDropdown.getItemAt(i);
-//            if (loc.getLocationId().equals(concert.getLocationId())) {
-//                locationDropdown.setSelectedItem(loc);
-//                break;
-//            }
-//        }
     }
 }

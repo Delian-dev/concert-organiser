@@ -11,8 +11,13 @@ public class HomePanel extends JPanel {
         setLayout(new BorderLayout());
 
         JLabel title = new JLabel("🎶 Concert Management System", SwingConstants.CENTER);
-        title.setFont(new Font("Arial", Font.BOLD, 26));
-        add(title, BorderLayout.NORTH);
+        title.setFont(new Font("SEGOE UI EMOJI", Font.BOLD, 26));
+
+        JPanel titlePanel = new JPanel(new BorderLayout());
+        titlePanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
+        titlePanel.add(title, BorderLayout.CENTER);
+
+        add(titlePanel, BorderLayout.NORTH);
 
         JTextPane description = new JTextPane();
         description.setText("""

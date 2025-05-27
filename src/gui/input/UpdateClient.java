@@ -39,7 +39,7 @@ public class UpdateClient extends JPanel {
         gbc.anchor = GridBagConstraints.CENTER;
         formPanel.add(titleLabel, gbc);
 
-        // Name
+        // name input field
         gbc.gridy++;
         gbc.gridwidth = 1;
         gbc.anchor = GridBagConstraints.EAST;
@@ -48,7 +48,7 @@ public class UpdateClient extends JPanel {
         gbc.anchor = GridBagConstraints.WEST;
         formPanel.add(nameField, gbc);
 
-        // Email
+        // email input field
         gbc.gridx = 0;
         gbc.gridy++;
         gbc.anchor = GridBagConstraints.EAST;
@@ -57,7 +57,7 @@ public class UpdateClient extends JPanel {
         gbc.anchor = GridBagConstraints.WEST;
         formPanel.add(emailField, gbc);
 
-        // Phone
+        // phone input field
         gbc.gridx = 0;
         gbc.gridy++;
         gbc.anchor = GridBagConstraints.EAST;
@@ -66,7 +66,7 @@ public class UpdateClient extends JPanel {
         gbc.anchor = GridBagConstraints.WEST;
         formPanel.add(phoneField, gbc);
 
-        // Button
+        // update button
         JButton updateButton = new JButton("✅ Update");
         updateButton.addActionListener(e -> handleUpdate());
 
@@ -110,7 +110,7 @@ public class UpdateClient extends JPanel {
         }
     }
 
-    public void setClient(Client client, Runnable onUpdatedCallback) {
+    public void setClient(Client client, Runnable onUpdatedCallback) { //function called in the clients panel that sets the input fields initially with the values the client already has
         this.currentClient = client;
         this.onClientUpdated = onUpdatedCallback;
 

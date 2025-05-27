@@ -204,4 +204,8 @@ public class MusiciansPanel extends JPanel {
         musiciansListPanel.repaint();
     }
 
+    public void addNotify() {
+        super.addNotify();
+        loadMusiciansIntoList();
+    }
 }

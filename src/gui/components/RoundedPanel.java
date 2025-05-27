@@ -17,7 +17,7 @@ public class RoundedPanel extends JPanel {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // Fill rounded rectangle with background color
+        //background color for the panel
         g2.setColor(getBackground());
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), ARC_WIDTH, ARC_HEIGHT);
 
@@ -27,7 +27,7 @@ public class RoundedPanel extends JPanel {
 
     @Override
     public boolean contains(int x, int y) {
-        // Make sure mouse events respect the rounded shape
+        // checks if a certain point is inside the panel
         Shape shape = new java.awt.geom.RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), ARC_WIDTH, ARC_HEIGHT);
         return shape.contains(x, y);
     }

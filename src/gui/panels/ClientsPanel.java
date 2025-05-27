@@ -73,7 +73,7 @@ public class ClientsPanel extends JPanel {
                 BorderFactory.createEmptyBorder(5, 10, 5, 10)
         ));
 
-        // === HEADER ROW ===
+        // header
         JPanel headerPanel = new JPanel();
         headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.X_AXIS));
         headerPanel.setOpaque(false);
@@ -104,7 +104,7 @@ public class ClientsPanel extends JPanel {
         headerPanel.add(Box.createHorizontalGlue());
         headerPanel.add(editButton);
 
-        // === TICKETS PANEL ===
+        // tickets section
         JPanel ticketsPanel = new JPanel();
         ticketsPanel.setLayout(new BoxLayout(ticketsPanel, BoxLayout.Y_AXIS));
         ticketsPanel.setVisible(false);
@@ -161,4 +161,8 @@ public class ClientsPanel extends JPanel {
         }
     }
 
+    public void addNotify() {
+        super.addNotify();
+        loadClients();
+    }
 }

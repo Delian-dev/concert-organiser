@@ -6,17 +6,6 @@ public class MusicianConcert {
     private int musicianFee;
     private int performanceDuration;
 
-    public MusicianConcert(int concertId, int musicianId) {
-        this.musicianId = musicianId;
-        this.concertId = concertId;
-    }
-
-    public MusicianConcert(int concertId, int musicianId, int musicianFee) {
-        this.musicianId = musicianId;
-        this.concertId = concertId;
-        this.musicianFee = musicianFee;
-    }
-
     public MusicianConcert(int concertId,int musicianId, int musicianFee, int performanceDuration) {
         this.musicianId = musicianId;
         this.concertId = concertId;
