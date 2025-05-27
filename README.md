@@ -14,7 +14,6 @@ A **Java OOP Swing application** for organizing and managing multiple concerts. 
 - [🎭 Concert Management](#-concert-management)
 - [🌍 Locations and Countries](#-locations-and-countries)
 - [🔗 Entity Associations](#-entity-associations)
-- [🖼️ Screenshots](#️-screenshots)
 
 ---
 
